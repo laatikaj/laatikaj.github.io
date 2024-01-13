@@ -1,2 +1,2 @@
 # laatikaj.github.io
-Laatikaj public repo
+Welcome to laatikaj space!
