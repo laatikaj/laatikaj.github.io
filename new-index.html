@@ -3,6 +3,12 @@
 
 <head>
 
+</head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linktree | laatikaj</title>
@@ -15,12 +21,18 @@
 
     <style>
         body {
-            background: url("bg.jpg");
-            /* The image used for background */
+            background: url("bgx.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center top;
             background-color: #dddee2;
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        sup {
+            font-size: medium;
+            padding-left: 20px;
         }
 
         .container {
@@ -30,10 +42,7 @@
             padding-left: 15px;
             margin-right: auto;
             margin-left: auto;
-        }
-
-        .w3-theme-l1 {
-            background-color: #e91e6285 !important;
+            border: #5f293d solid;
         }
 
         .footer {
@@ -45,13 +54,15 @@
             z-index: 10;
         }
 
-		.ananas {
-		  font-size: 1.7rem;
-		}
-		
-        .margin-top-2 {
-            margin-top: 32px;
+        .ananas {
+            font-size: 1.7rem;
+            padding-top: 15px;
         }
+
+        .w3-theme-l1 {
+            background-color: #e91e6285 !important;
+        }
+
         .bottom {
             width: 100%;
             text-align: center;
@@ -101,62 +112,51 @@
 
 <body>
 
-<!-- camera, code, coffee, headphones, image, message-circle, moon, music, send, sun, terminal, Type -->
+    <!-- camera, code, coffee, headphones, image, message-circle, moon, music, send, sun, terminal, Type -->
 
     <!-- Content container -->
     <div class="container">
 
-        <!-- Image and name container. -->
-        <div style="text-align: center">
+        <div>
             <img src="picofme.png" class="w3-margin" alt="Picture of laatikaj." width="250px" height="250px"
-                style="border-radius: 50%; border: 5px solid #5f293d !important; margin-top: 16px;">
-
-            <p>
-                <span class="name w3-tag w3-large w3-black w3-round w3-text-white"
-                    style="font-weight: bolder;">Link Tree of laatikaj.</span>
-            </p>
+                style="border-radius: 50%; border: 5px solid #5f293d !important;">
         </div>
 
-        <!-- Links section -->
-        <div class="icons w3-padding">
-
-            <a href="https://open.spotify.com/user/laatikaj" class="w3-button w3-hover-pink w3-round-xlarge w3-theme-l1 w3-border link" target="_blank">
-                <i data-feather="headphones"></i>&nbsp;&nbsp;&nbsp;Spotify | laatikaj.music</a>
-        </div>
-
-        <div class="icons w3-padding">
- 
-            <a href="https://www.instagram.com/poetry.by.laatikaj/" class="w3-button w3-hover-pink w3-round-xlarge w3-theme-l1 w3-border link" target="_blank">
-                <i data-feather="instagram"></i>&nbsp;&nbsp;&nbsp;Instagram | laatikaj.poetry</a>
-            
-        </div>
-        <div class="icons w3-padding">
-
-            <a href="https://www.linkedin.com/company/laatikaj/" class="w3-button w3-hover-pink w3-round-xlarge w3-theme-l1 w3-border link" target="_blank">
-                <i data-feather="linkedin"></i>&nbsp;&nbsp;&nbsp;LinkedIn | laatikaj.company</a>
-            
-        </div>
-
-        <div class="icons w3-padding">
-
-            <a href="https://github.com/laatikaj/" class="w3-button w3-hover-pink w3-round-xlarge w3-theme-l1 w3-border link" target="_blank">
-                <i data-feather="github"></i>&nbsp;&nbsp;&nbsp;Github | laatikaj.code</a>
+        <div class="w3-medium w3-pink w3-round-xlarge w3-text-white w3-padding w3-theme-l1">
+            description
+            <div class="ananas">
+                &#x1F34D;
+            </div>
         </div>
         
+        <p>__________väli________</p>
+
+
+        <div>
+
+            <a href="https://open.spotify.com/user/laatikaj" target="_blank"><i
+                    data-feather="terminal"></i><sup>Spotify | laatikaj.music</sup></a>
+        </div>
+
+
+        <div>
+
+            <a href="https://github.com/laatikaj/" target="_blank"><i data-feather="github"></i><sup>Github
+                    | laatikaj.code</sup></a>
+        </div>
+
     </div>
 
-    <div class="bottom margin-top-2 w3-padding w3-round ananas">
-		&#x1F34D; 
-    </div>
-
-    <br>
-	<div class="footer">
-		Handmade in Nurmijärvi &copy; <script>document.write(new Date().getFullYear())</script> All rights reserved.
-	</div>
-	
     <script>
-        feather.replace()
+        feather.replace();
     </script>
+
+    <div class="footer">
+        Handmade in Nurmijärvi &copy;
+        <script>document.write(new Date().getFullYear())</script> All rights reserved.
+    </div>
+
+
 </body>
 
 </html>
