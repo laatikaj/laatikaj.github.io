@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0;"/>
+    <title>Tekstin Tallennus ja Muokkaus</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 5px; 
+        }
+        input, button, textarea {
+            padding: 5px;
+            font-size: 11px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: Verdana, Arial;
+            border-radius: 5px;
+            padding: 5px 10px;
+            width: 50px;
+        }
+        textarea {
+            width: 97%;
+            height: 44px;
+            resize: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+            font-size: 11px;
+        }
+        button.edit-btn {
+            background-color: orange;
+        }
+        button.save-btn {
+            
+        }
+        button.del-btn {
+            background-color: red;
+        }
+        .delete-checkbox {
+            display: none;
+        }
+        label.delete-label {
+            display: none;
+            margin-left: 10px;
+            margin-right: 3px;
+            font-size: 10px;
+            align: middle;
+        }
+        #text-container {
+		    position: absolute;
+		    bottom: 0; /* set the bottom to 0*/
+		    font-size: 7px;
+		    font-family: "Courier new";
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			color: blue;
+	    }
+    </style>
+</head>
+<body>
+
+    <h2>Muisti+</h2>
+    
+    <textarea id="textInput" placeholder="Kirjoita jotain..."></textarea>
+    <button onclick="addText()">Save</button>
+
+    <table id="textTable">
+        <thead>
+            <tr>
+                <th>Teksti</th>
+                <th>Toiminnot</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Tässä taulukon rivit -->
+        </tbody>
+    </table>
+    
+    <div id="text-container"></div>
+
+    <script>
+        window.onload = function() {
+            loadTable();
+            showBottom();
+        };
+
+        function addText() {
+            var textInput = document.getElementById('textInput').value;
+
+            if (textInput === "") {
+                alert("Kirjoitathan jotain ennen tallennusta.");
+                return;
+            }
+
+            var storedTexts = JSON.parse(localStorage.getItem('texts')) || [];
+            storedTexts.push(textInput);
+            localStorage.setItem('texts', JSON.stringify(storedTexts));
+
+            addRowToTable(textInput, storedTexts.length - 1);
+            document.getElementById('textInput').value = "";
+        }
+
+        function addRowToTable(text, index) {
+            var table = document.getElementById('textTable').getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+
+            cell1.textContent = text;
+            cell1.setAttribute('contentEditable', 'false');
+
+            var editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.className = "edit-btn";
+            editButton.onclick = function() {
+                toggleEdit(cell1, editButton, checkbox, deleteLabel, index);
+            };
+
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.className = "delete-checkbox";
+
+            var deleteLabel = document.createElement("label");
+            deleteLabel.textContent = "Poista";
+            deleteLabel.className = "delete-label";
+
+            cell2.appendChild(editButton);
+            cell2.appendChild(deleteLabel);
+            cell2.appendChild(checkbox);
+        }
+
+        function deleteRow(index) {
+            var storedTexts = JSON.parse(localStorage.getItem('texts')) || [];
+
+            if (index > -1) {
+                storedTexts.splice(index, 1);
+                localStorage.setItem('texts', JSON.stringify(storedTexts));
+                loadTable();
+            }
+        }
+
+        function loadTable() {
+            var table = document.getElementById('textTable').getElementsByTagName('tbody')[0];
+            table.innerHTML = "";
+
+            var storedTexts = JSON.parse(localStorage.getItem('texts')) || [];
+            storedTexts.forEach(function(text, index) {
+                addRowToTable(text, index);
+            });
+         
+        }
+
+        function toggleEdit(cell, button, checkbox, deleteLabel, index) {
+            if (cell.isContentEditable) {
+                cell.setAttribute('contentEditable', 'false');
+                if (checkbox.checked) {
+                    deleteRow(index);
+                } else {
+                    var storedTexts = JSON.parse(localStorage.getItem('texts')) || [];
+                    storedTexts[index] = cell.textContent;
+                    localStorage.setItem('texts', JSON.stringify(storedTexts));
+                }
+                button.textContent = "Edit";
+                button.className = "edit-btn";
+                checkbox.style.display = "none";
+                deleteLabel.style.display = "none";
+            } else {
+                cell.setAttribute('contentEditable', 'true');
+                cell.focus();
+                button.textContent = checkbox.checked ? "Del" : "Save";
+                button.className = checkbox.checked ? "del-btn" : "save-btn";
+                checkbox.style.display = "inline-block";
+                deleteLabel.style.display = "inline-block";
+            }
+
+            checkbox.onchange = function() {
+                button.textContent = checkbox.checked ? "Del" : "Save";
+                button.className = checkbox.checked ? "del-btn" : "save-btn";
+            };
+        }
+        
+        function showBottom(){
+	        const textContainer = document.getElementById('text-container');
+            textContainer.textContent = localStorage.getItem('texts');
+        }
+        
+        // Näytetään tekstit kun sivu ladataan
+        document.addEventListener('click', showBottom);
+        
+    </script>
+    
+
+
+</body>
+</html>
