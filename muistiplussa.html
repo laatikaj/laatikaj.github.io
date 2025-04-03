@@ -1,159 +1,34 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="f9">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0;" />
     <title>Muisti+ | Kun oma muisti ei riitä</title>
+    <meta name="description" content="Jaanan simppeli paikallinen muistilista">
+    <meta name="author" content="laatikaj.">
     <link rel="apple-touch-icon" href="/addtask.png">
     <link rel="icon" type="image/png" href="/addtask.png">
     <link rel="apple-touch-startup-image" href="/addtask.png">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 14px;
-            font-size: 0.95em;
-        }
-
-        h1,
-        h2 {
-            color: #333;
-            font-family: Papyrus, Harrington, Wisp, Arkana, Rivendell, Lucida Handwriting, Apple Chancery, Brush Script;
-            font-size: 2em;
-        }
-
-        textarea {
-            width: 100%;
-            height: 50px;
-            margin-bottom: 10px;
-            /*resize: none;*/
-            border: 1px solid #c9c9c9;
-            font-size: 1.2em;
-            white-space: pre-line;
-        }
-
-        button {
-            padding: 5px 5px;
-            width: 50px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        a {
-            display: block;
-            margin-top: 20px;
-            color: #007BFF;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-
-        }
-
-        th {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-            background-color: #f2f2f2;
-            font-family: Papyrus, Harrington, Wisp, Arkana, Rivendell, Lucida Handwriting, Apple Chancery, Brush Script;
-        }
-
-
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        button.edit-btn {
-            background-color: orange;
-        }
-
-        a.copy {
-            display: block;
-            margin-top: 20px;
-            color: rgb(111, 111, 255);
-            font-weight: 600;
-            text-decoration: underline;
-        }
-
-        button.del-btn {
-            background-color: red;
-        }
-
-        .delete-checkbox {
-            display: none;
-            vertical-align: -4px;
-            position: relative;
-            bottom: 1px;
-        }
-
-        label.delete-label {
-            display: none;
-            margin-left: 10px;
-            margin-right: 1px;
-            font-size: 0.8em;
-        }
-
-        #text-container {
-            font-size: 0.8em;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            color: rgb(111, 111, 255);
-        }
-
-        .collapsible {
-            color: rgb(111, 111, 255);
-            margin-top: 100px;
-            cursor: pointer;
-            font-size: 0.8em;
-            text-decoration-line: none;/*overline;*/
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;  
-        }
-
-        .content {
-            padding: 5px 5px;
-            display: none;
-            overflow: hidden;
-            background-color: #f2f2f2;
-            cursor: grabbing;
-            -webkit-user-select: all;  /* Chrome all / Safari all */
-            -moz-user-select: all;     /* Firefox all */
-            -ms-user-select: all;      /* IE 10+ */
-            user-select: all;          /* Likely future */ 
-        }
-    </style>
+    <link rel="stylesheet" href="muistiplussa.css">
 </head>
 
 <body>
 
     <h2>Muisti+</h2>
 
-    <textarea id="textInput" placeholder="Kirjoita jotain..."></textarea>
-    <button onclick="addText()">Save</button>
+    <textarea id="textInput" placeholder="Mitä haluat muistaa?"></textarea>
+    <button class="rect" onclick="addText()">Add <span class="arrow">&#x021B7;</span></button>
 
     <table id="textTable">
         <thead>
             <tr>
-                <th>Teksti</th>
-                <th>Toiminnot</th>
+                <th>Paikallinen muisti</th>
+                <th>Muokkaa</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Taulukon rivit -->
+            <!-- Table rows -->
         </tbody>
     </table>
 
@@ -162,131 +37,7 @@
         <div id="text-container"></div>
     </div>
 
-    <script>
-        window.onload = function () {
-            loadTable();
-            showBottom();
-        };
-
-        function addText() {
-            var textInput = document.getElementById('textInput').value;
-
-            if (textInput === "") {
-                alert("Kirjoitathan jotain ennen tallennusta.");
-                return;
-            }
-
-            var storedTexts = JSON.parse(localStorage.getItem('texts')) || [];
-            storedTexts.push(textInput);
-            localStorage.setItem('texts', JSON.stringify(storedTexts));
-
-            addRowToTable(textInput, storedTexts.length - 1);
-            document.getElementById('textInput').value = "";
-        }
-
-        function addRowToTable(text, index) {
-            var table = document.getElementById('textTable').getElementsByTagName('tbody')[0];
-            var newRow = table.insertRow();
-            var cell1 = newRow.insertCell(0);
-            var cell2 = newRow.insertCell(1);
-
-            cell1.textContent = text;
-            cell1.setAttribute('contentEditable', 'false');
-
-            var editButton = document.createElement("button");
-            editButton.textContent = "Edit";
-            editButton.className = "edit-btn";
-            editButton.onclick = function () {
-                toggleEdit(cell1, editButton, checkbox, deleteLabel, index);
-            };
-
-            var checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.className = "delete-checkbox";
-
-            var deleteLabel = document.createElement("label");
-            deleteLabel.textContent = "Poista";
-            deleteLabel.className = "delete-label";
-
-            cell2.appendChild(editButton);
-            cell2.appendChild(deleteLabel);
-            cell2.appendChild(checkbox);
-        }
-
-        function deleteRow(index) {
-            var storedTexts = JSON.parse(localStorage.getItem('texts')) || [];
-
-            if (index > -1) {
-                storedTexts.splice(index, 1);
-                localStorage.setItem('texts', JSON.stringify(storedTexts));
-                loadTable();
-            }
-        }
-
-        function loadTable() {
-            var table = document.getElementById('textTable').getElementsByTagName('tbody')[0];
-            table.innerHTML = "";
-
-            var storedTexts = JSON.parse(localStorage.getItem('texts')) || [];
-            storedTexts.forEach(function (text, index) {
-                addRowToTable(text, index);
-            });
-
-        }
-
-        function toggleEdit(cell, button, checkbox, deleteLabel, index) {
-            if (cell.isContentEditable) {
-                cell.setAttribute('contentEditable', 'false');
-                if (checkbox.checked) {
-                    deleteRow(index);
-                } else {
-                    var storedTexts = JSON.parse(localStorage.getItem('texts')) || [];
-                    storedTexts[index] = cell.textContent;
-                    localStorage.setItem('texts', JSON.stringify(storedTexts));
-                }
-                button.textContent = "Edit";
-                button.className = "edit-btn";
-                checkbox.style.display = "none";
-                deleteLabel.style.display = "none";
-            } else {
-                cell.setAttribute('contentEditable', 'true');
-                cell.focus();
-                button.textContent = checkbox.checked ? "Del" : "Save";
-                button.className = checkbox.checked ? "del-btn" : "save-btn";
-                checkbox.style.display = "inline-block";
-                deleteLabel.style.display = "inline-block";
-            }
-
-            checkbox.onchange = function () {
-                button.textContent = checkbox.checked ? "Del" : "Save";
-                button.className = checkbox.checked ? "del-btn" : "save-btn";
-            };
-        }
-
-        function showBottom() {
-            const textContainer = document.getElementById("text-container");
-            textContainer.textContent = localStorage.getItem("texts");
-
-
-            var coll = document.getElementsByClassName("collapsible");
-            for (var i = 0; i < coll.length; i++) {
-                coll[i].addEventListener("click", function () {
-                    var content = this.nextElementSibling;
-                    if (content.style.display === "block") {
-                        content.style.display = "none";
-                    } else {
-                        content.style.display = "block";
-                    }
-                });
-            }
-
-        }
-
-        // Näytetään tekstit kun sivu ladataan
-        document.addEventListener('click', showBottom);
-
-    </script>
-
+    <script src="muistiplussa.js"></script>
 
 
 </body>
