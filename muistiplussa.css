@@ -41,8 +41,8 @@ button.edit,
 button.clear,
 button.save {
     border-radius: 50%;
-    height: 2em;
-    width: 2em;
+    height: 2.2em;
+    width: 2.2em;
     font-weight: bolder;
     -webkit-box-pack: center;
     justify-content: center;
