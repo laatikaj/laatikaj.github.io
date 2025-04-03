@@ -10,7 +10,7 @@
     <link rel="apple-touch-startup-image" href="/addtask.png">
     <style>
         body {
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 14px;
             font-size: 0.95em;
         }
@@ -29,16 +29,16 @@
             /*resize: none;*/
             border: 1px solid #c9c9c9;
             font-size: 1.2em;
+            white-space: pre-line;
         }
 
         button {
-            padding: 5px 10px;
+            padding: 5px 5px;
             width: 50px;
             background-color: #007BFF;
             color: white;
             border: none;
             cursor: pointer;
-            font-family: Verdana, Arial;
             border-radius: 5px;
         }
 
@@ -110,16 +110,30 @@
         }
 
         #text-container {
-            position: absolute;
-            bottom: 0;
-            margin-bottom: 10px;
-            /* set the bottom to 0*/
-            font-size: 0.6em;
+            font-size: 0.8em;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            width: 80%;
-            display: flex;
-            justify-content: left;
             color: rgb(111, 111, 255);
+        }
+
+        .collapsible {
+            color: rgb(111, 111, 255);
+            margin-top: 100px;
+            cursor: pointer;
+            font-size: 0.8em;
+            text-decoration-line: none;/*overline;*/
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;  
+        }
+
+        .content {
+            padding: 5px 5px;
+            display: none;
+            overflow: hidden;
+            background-color: #f2f2f2;
+            cursor: grabbing;
+            -webkit-user-select: all;  /* Chrome all / Safari all */
+            -moz-user-select: all;     /* Firefox all */
+            -ms-user-select: all;      /* IE 10+ */
+            user-select: all;          /* Likely future */ 
         }
     </style>
 </head>
@@ -143,7 +157,10 @@
         </tbody>
     </table>
 
-    <div id="text-container"></div>
+    <p class="collapsible">&lsqb;Stringified json&rsqb;</p>
+    <div class="content">
+        <div id="text-container"></div>
+    </div>
 
     <script>
         window.onload = function () {
@@ -247,8 +264,22 @@
         }
 
         function showBottom() {
-            const textContainer = document.getElementById('text-container');
-            textContainer.textContent = localStorage.getItem('texts');
+            const textContainer = document.getElementById("text-container");
+            textContainer.textContent = localStorage.getItem("texts");
+
+
+            var coll = document.getElementsByClassName("collapsible");
+            for (var i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function () {
+                    var content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            }
+
         }
 
         // Näytetään tekstit kun sivu ladataan
