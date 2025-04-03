@@ -8,17 +8,19 @@ body {
 h1,
 h2 {
     font-family: Papyrus, Harrington, Wisp, Arkana, Rivendell, Lucida Handwriting, Apple Chancery, Brush Script;
-    font-size: 2em;
 }
+
+h1 { font-size: 2.5em; }
+h2 { font-size: 2em; }
 
 textarea {
     width: 100%;
-    height: 5em;
+    height: 4.4em;
     /*resize: none;*/
     border: 1px solid #c9c9c9;
     font-size: 1.14em;
     white-space: pre-line;
-    margin-top: -0.2em;
+    margin-top: -0.3em;
 
 }
 
@@ -30,22 +32,23 @@ button {
 }
 
 button.rect {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    padding-left: 1.5em;
-    padding-right: 1.5em;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    padding-left: 1.4em;
+    padding-right: 1.4em;
     font-size: 1em;
 }
 
 button.edit,
 button.clear,
 button.save {
-    border-radius: 50%;
+    /*border-radius: 50%;
     height: 2.2em;
     width: 2.2em;
-    font-size: 1em;
     -webkit-box-pack: center;
-    justify-content: center;
+    justify-content: center;*/
+    padding: 0.4em;
+    font-size: 1em;
 }
 
 button.edit {
@@ -106,11 +109,6 @@ td {
     text-decoration-line: none;
 }
 
-.arrow {
-    font-size: 1.14em;
-    vertical-align: middle;
-}
-
 .content {
     padding: 0.2em;
     display: none;
@@ -130,8 +128,8 @@ td {
 .delete-checkbox {
     display: none;
     position: relative;
-    width: 1em;
-    height: 1em;
+    width: 1.2em;
+    height: 1.2em;
     background-color: white;
     border-radius: 50%;
     vertical-align: middle;
