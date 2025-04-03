@@ -34,9 +34,13 @@ function addText() {
 
 function addRowToTable(text, index) {
     var table = document.getElementById('textTable').getElementsByTagName('tbody')[0];
-    var newRow = table.insertRow();
-    var cell1 = newRow.insertCell(0);
-    var cell2 = newRow.insertCell(1);
+    var newRow = table.insertRow(0);
+    var cell0 = newRow.insertCell(0);
+    var cell1 = newRow.insertCell(1);
+    var cell2 = newRow.insertCell(2);
+
+    cell0.textContent = index+1;
+    cell0.setAttribute('contentEditable', 'false');
 
     cell1.textContent = text;
     cell1.setAttribute('contentEditable', 'false');
