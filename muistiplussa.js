@@ -47,7 +47,7 @@ function addRowToTable(text, index) {
 
     var editButton = document.createElement("button");
 
-    editButton.textContent = '\u{000AB}';
+    editButton.textContent = '\u{02702}';
     editButton.className = "edit";
     editButton.onclick = function () {
         toggleEdit(cell1, editButton, checkbox, index);
@@ -92,7 +92,7 @@ function toggleEdit(cell, button, checkbox, index) {
             storedTexts[index] = cell.textContent;
             localStorage.setItem('texts', JSON.stringify(storedTexts));
         }
-        button.textContent = '\u{000AB}';
+        button.textContent = '\u{02702}';
         button.className = "edit";
         checkbox.style.display = "none";
     } else {
