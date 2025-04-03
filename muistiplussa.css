@@ -9,6 +9,7 @@ h1,
 h2 {
     font-family: Papyrus, Harrington, Wisp, Arkana, Rivendell, Lucida Handwriting, Apple Chancery, Brush Script;
     font-size: 2em;
+    margin-bottom: -0.7em;
 }
 
 textarea {
@@ -28,7 +29,7 @@ button {
 }
 
 button.rect {
-
+    padding-bottom: 0.5em;
     padding-bottom: 0.5em;
     padding-left: 1.5em;
     padding-right: 1.5em;
