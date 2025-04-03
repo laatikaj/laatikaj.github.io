@@ -20,7 +20,7 @@ function addText() {
     var textInput = document.getElementById('textInput').value;
 
     if (textInput === "") {
-        alert("Ei muistettavaa?");
+        alert("Muistat jo kaiken?");
         return;
     }
 
@@ -47,7 +47,7 @@ function addRowToTable(text, index) {
 
     var editButton = document.createElement("button");
 
-    editButton.textContent = '\u{1F58A}';
+    editButton.textContent = '\u{203A}';
     editButton.className = "edit";
     editButton.onclick = function () {
         toggleEdit(cell1, editButton, checkbox, index);
