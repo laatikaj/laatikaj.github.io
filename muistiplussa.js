@@ -47,7 +47,7 @@ function addRowToTable(text, index) {
 
     var editButton = document.createElement("button");
 
-    editButton.textContent = '\u{2704}';
+    editButton.textContent = '\u{0270E}';
     editButton.className = "edit";
     editButton.onclick = function () {
         toggleEdit(cell1, editButton, checkbox, index);
@@ -92,20 +92,19 @@ function toggleEdit(cell, button, checkbox, index) {
             storedTexts[index] = cell.textContent;
             localStorage.setItem('texts', JSON.stringify(storedTexts));
         }
-        button.textContent = '\u{2704}';
+        button.textContent = '\u{0270E}';
         button.className = "edit";
         checkbox.style.display = "none";
     } else {
         cell.setAttribute('contentEditable', 'true');
         cell.focus();
-        /*button.textContent = checkbox.checked ? '\u{003A7}' : '\u{02713}';*/
-        button.textContent = checkbox.checked ? "Clear" : "Save";
+        button.textContent = checkbox.checked ? '\u{02718}' : '\u{02714}';
         button.className = checkbox.checked ? "clear" : "save";
         checkbox.style.display = "inline-block";
     }
 
     checkbox.onchange = function () {
-        button.textContent = checkbox.checked ? "Clear" : "Save";
+        button.textContent = checkbox.checked ? '\u{02718}' : '\u{02714}';
         button.className = checkbox.checked ? "clear" : "save";
     };
 }
