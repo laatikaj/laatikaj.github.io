@@ -114,4 +114,7 @@ function showBottom() {
     textContainer.textContent = localStorage.getItem("texts");
 }
 
-document.addEventListener('click', showBottom);
+// Jos haluat, että copy/paste-laatiokssa on koko ajan ajantasainen listaus niin aktivoi eventListener. 
+// Muuten anna olla kommenteissa ja vasta ikkunan refresh tuoreistaa tekstit. 
+// Kätevä esim jos vahingossa poistaa jonkun rivin ja halusi muistaa mitä siinä lukikaan... 
+//document.addEventListener('click', showBottom);
