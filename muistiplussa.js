@@ -98,13 +98,13 @@ function toggleEdit(cell, button, checkbox, index) {
     } else {
         cell.setAttribute('contentEditable', 'true');
         cell.focus();
-        button.textContent = checkbox.checked ? '\u{02718}' : '\u{02714}';
+        button.textContent = checkbox.checked ? '\u{02718}' : '\u{02713}';
         button.className = checkbox.checked ? "clear" : "save";
         checkbox.style.display = "inline-block";
     }
 
     checkbox.onchange = function () {
-        button.textContent = checkbox.checked ? '\u{02718}' : '\u{02714}';
+        button.textContent = checkbox.checked ? '\u{02718}' : '\u{02713}';
         button.className = checkbox.checked ? "clear" : "save";
     };
 }
