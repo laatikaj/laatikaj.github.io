@@ -1,0 +1,149 @@
+body {
+    /*
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    */
+    font-family: Arial, sans-serif;
+    margin: 1.14em;
+    font-size: 0.95em;
+    color: #333;
+}
+
+h1,
+h2 {
+    font-family: Papyrus, Harrington, Wisp, Arkana, Rivendell, Lucida Handwriting, Apple Chancery, Brush Script;
+}
+
+h1 { font-size: 2.5em; }
+h2 { font-size: 2em; }
+
+textarea {
+    width: 100%;
+    height: 4.4em;
+    /*resize: none;*/
+    border: 1px solid #c9c9c9;
+    font-size: 1.14em;
+    white-space: pre-line;
+    margin-top: -0.3em;
+
+}
+
+button {
+    background-color: slateblue;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button.rect {
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    padding-left: 1.4em;
+    padding-right: 1.4em;
+    font-size: 1em;
+}
+
+button.edit,
+button.clear,
+button.save {
+    /*border-radius: 50%;
+    height: 2.2em;
+    width: 2.2em;
+    -webkit-box-pack: center;
+    justify-content: center;*/
+    padding: 0.4em;
+    font-size: 1em;
+}
+
+button.edit {
+    background-color: orange;
+}
+
+button.clear {
+    background-color: red;
+}
+
+button:hover {
+    box-shadow: 0 0.1em 0.3em darkslategray;
+}
+
+a {
+    display: block;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a.copy {
+    color: rgb(111, 111, 255);
+    font-weight: 600;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em;
+}
+
+th {
+    border: 1px solid #ddd;
+    padding: 0.5em;
+    text-align: left;
+    background-color: #f2f2f2;
+    font-family: Papyrus, Harrington, Wisp, Arkana, Rivendell, Lucida Handwriting, Apple Chancery, Brush Script;
+}
+
+
+td {
+    border: 1px solid #ddd;
+    padding: 0.5em;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+#text-container {
+    font-size: 0.8em;
+    color: rgb(111, 111, 255);
+}
+
+.collapsible {
+    color: rgb(111, 111, 255);
+    margin-top: 4em;
+    cursor: pointer;
+    font-size: 0.8em;
+    text-decoration-line: none;
+}
+
+.content {
+    padding: 0.2em;
+    display: none;
+    overflow: hidden;
+    background-color: #f2f2f2;
+    cursor: grabbing;
+    /* Chrome all / Safari all */
+    -webkit-user-select: all;
+    /* Firefox all */
+    -moz-user-select: all;
+    /* IE 10+ */
+    -ms-user-select: all;
+    /* Likely future */
+    user-select: all;
+}
+
+.delete-checkbox {
+    display: none;
+    position: relative;
+    width: 1.2em;
+    height: 1.2em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid red;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    margin-left: 0.5em;
+}
+
+.delete-checkbox:checked {
+    background-color: red;
+}

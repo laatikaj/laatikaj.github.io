@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="f9">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0;" />
+    <title>Muisti+ | Kun oma muisti ei riitä</title>
+    <meta name="description" content="Jaanan simppeli paikallinen muistilista">
+    <meta name="author" content="laatikaj.">
+    <link rel="apple-touch-icon" href="/addtask.png">
+    <link rel="icon" type="image/png" href="/addtask.png">
+    <link rel="apple-touch-startup-image" href="/addtask.png">
+    <link rel="stylesheet" href="muistiplussa.css">
+</head>
+
+<body>
+
+    <h2>Muisti+</h2>
+
+    <textarea id="textInput" placeholder="Mitä haluat muistaa?"></textarea>
+    <button class="rect" onclick="addText()">Kirjaa alas</button>
+
+    <table id="textTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Muistettavat</th>
+                <th>Muokkaa</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows -->
+        </tbody>
+    </table>
+
+    <p class="collapsible">&lsqb;Stringified json&rsqb;</p>
+    <div class="content">
+        <div id="text-container"></div>
+    </div>
+
+    <script src="muistiplussa.js"></script>
+
+
+</body>
+
+</html>
