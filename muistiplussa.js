@@ -109,6 +109,11 @@ function toggleEdit(cell, button, checkbox, index) {
     };
 }
 
+function toggleFAQ() {
+    const faq = document.getElementById('faq');
+    faq.classList.toggle('visible');
+  }
+
 function showBottom() {
     const textContainer = document.getElementById("text-container");
     textContainer.textContent = localStorage.getItem("texts");

@@ -6,8 +6,10 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3 {
     font-family: Papyrus, Harrington, Wisp, Arkana, Rivendell, Lucida Handwriting, Apple Chancery, Brush Script;
+    margin: 0;
 }
 
 h1 {
@@ -18,13 +20,17 @@ h2 {
     font-size: 2em;
 }
 
+h3 {
+    font-size: 1.5em;
+}
+
 textarea {
     width: 100%;
     height: 4.4em;
     border: 1px solid #c9c9c9;
     font-size: 1.14em;
     white-space: pre-line;
-    margin-top: -0.3em;
+    /*margin-top: -0.3em;*/
     box-sizing: border-box;
 }
 
@@ -99,6 +105,10 @@ td {
     overflow-wrap: anywhere;
 }
 
+code {
+    font-size: 1.1em;
+}
+
 #text-container {
     font-size: 0.8em;
     color: rgb(111, 111, 255);
@@ -147,4 +157,38 @@ td {
 
 .delete-checkbox:checked {
     background-color: red;
+}
+
+button.about {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    font-size: 0.8em;
+    background-color: rgb(255, 208, 121);
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    color: #333;
+}
+
+.faq {
+    display: none;
+    max-width: 100%;
+    padding: 0.8em 0.8em 0.8em 2em; 
+    background-color: rgba(255, 166, 0, 0.255);
+}
+
+.faq.visible {
+    display: block;
+}
+
+.footer {
+    font-size: 0.8rem;
+    position: fixed;
+    inline-size: -webkit-fill-available;
+    bottom: 0px;
+    z-index: 100;
+    text-align: center;
 }

@@ -10,14 +10,47 @@
     <link rel="apple-touch-icon" href="/addtask.png">
     <link rel="icon" type="image/png" href="/addtask.png">
     <link rel="apple-touch-startup-image" href="/addtask.png">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link type="text/css" rel="stylesheet" href="muistiplussa.css">
     <!--[if !IE]>-->
-    <link type="text/css" rel="stylesheet" media="only screen and (max-device-width: 480px)" href="muistiplussa-mobile.css" />
-    <link type="text/css" rel="stylesheet" media="only screen and (min-device-width: 768px) and (max-device-width: 1024px)" href="muistiplussa.css" />
+    <link type="text/css" rel="stylesheet" media="only screen and (max-device-width: 480px)"
+        href="muistiplussa-mobile.css" />
+    <link type="text/css" rel="stylesheet"
+        media="only screen and (min-device-width: 768px) and (max-device-width: 1024px)" href="muistiplussa.css" />
     <!--<![endif]-->
 </head>
 
 <body>
+
+    <button class="about" onclick="toggleFAQ()">FS</button>
+
+    <div id="faq" class="faq">
+        <h3>Fact Sheet</h3>
+        <p><strong>Tämän yksinkertaisen appletin avulla vapautat tilaa välimuististasi muuhun käyttöön.</strong></p>
+        <p>Muisti+ on nopea, helppokäyttöinen ja alustariippumaton sovelma, joka auttaa tallentamaan
+            ja hallinnoimaan muistettavia asioita paikallisesti hyödyntämällä selaimen localStorage-ominaisuutta.
+            Sovelma on erityisen hyödyllinen, kun tarvitsee yksinkertaisen tavan pitää kirjaa muistettavista asioista
+            ilman tarvetta ulkoisille palveluille.</p>
+        <p>Kirjoita muistettava asia tekstialueelle ja tallenna se. Tallennetut asiat
+            näkyvät taulukossa (uusin ylimpänä) ja niitä voi muokata rivitoimintojen avulla.</p>
+        <p>Sivun alaosassa on mahdollisuus nähdä kaikki tallennetut asiat json-muodossa. Tiedot voi helposti kopioida ja
+            lisätä toisaalle.
+        <blockquote>&#x1F6A9;Json päivittyy, vasta kun sivu ladataan. Hyödyllinen ominaisuus jos vahingossa
+            poistaa muistettavan asian &ndash; sen löytää vielä json:sta.</blockquote>
+            <blockquote>&#x1F6A9;localStorage on kaikkein laitteen käyttäjien käytettävissä, joten sitä ei pitäisi käyttää arkaluonteisten tietojen tallentamiseen</blockquote>
+        </p>
+        <p>Toiminnot
+        <ul>
+            <li><code>Kirjaa alas</code>: tallentaa tekstialueen sisällön localStorageen ja näyttää sen taulukossa uutena rivinä</li>
+            <li>&#x0270E;: siirtää rivin muokkaustilaan</li>
+            <li>&#x02714;: siirtää rivin takaisin lukutilaan, ja tallentaa rivin tiedot (tarvittaessa) paikallismuistiin</li>
+            <li>&#x25CB;: siirtää rivin poistotilaan/muokkaustilaan</li>
+            <li>&#x02718;: poistaa rivin taulukosta ja localStoragesta</li>
+            <li><code>Stringified json</code>: näyttää localStorageen tallennetut muistettavat asiat json-muodossa</li>
+            <li><code>Ctrl+R</code>: päivittää aktiivisen sivun, joka lataa muistettavat asiat localStoragesta ja näyttää ne taulukossa ja json-muodossa</li>
+        </ul>
+        </p>
+    </div>
 
     <h1>Muisti+</h1>
 
@@ -44,6 +77,10 @@
 
     <script src="muistiplussa.js"></script>
 
+    <div class="footer w3-padding">
+        Handmade in Nurmijärvi &copy;
+        <script>document.write(new Date().getFullYear())</script> All rights reserved.
+    </div>
 
 </body>
 

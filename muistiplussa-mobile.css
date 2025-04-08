@@ -1,7 +1,6 @@
 body {
     -webkit-text-size-adjust: none;
     font-family: Helvetica, Arial, Verdana, sans-serif;
-    padding: 5px;
     margin: 10px;
     font-size: 12px;
 }
@@ -15,7 +14,8 @@ div {
 }
 
 h1,
-h2 {
+h2,
+h3 {
     margin-top: -5px;
 }
 
@@ -65,6 +65,10 @@ td {
     padding: 4px;
 }
 
+code {
+    font-size: 9px;
+}
+
 #text-container {
     font-size: 9px;
 }
@@ -82,4 +86,25 @@ td {
     margin-left: 8px;
     height: 15px;
     width: 15px;
+}
+
+button.about {
+    font-size: 11px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+.faq {
+    padding: 5px;
+  }
+
+.footer {
+    font-size: 9px;
+    position: fixed;
+    inline-size: -webkit-fill-available;
+    bottom: 0px;
+    z-index: 100;
+    text-align: center;
 }
