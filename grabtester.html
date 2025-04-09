@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <title>Textarea Select All</title>
+  <style>
+    textarea {
+      width: 300px;
+      height: 150px;
+      padding: 10px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Desktop only grab cursor on hover */
+    @media (hover: hover) and (pointer: fine) {
+      textarea:hover {
+        cursor: grab;
+      }
+    }
+
+    /* Visuaalinen indikaatio kosketukselle */
+    textarea.touched {
+      background-color: #e0f7fa; /* vaaleansininen sävy */
+    }
+  </style>
+</head>
+<body>
+  <textarea id="myTextarea">Tämä on esimerkkiteksti. Klikkaa tai kosketa valitaksesi koko teksti.</textarea>
+
+  <script>
+    const textarea = document.getElementById('myTextarea');
+
+    function selectAllText(e) {
+      e.target.select();
+    }
+
+    textarea.addEventListener('click', selectAllText);
+
+    textarea.addEventListener('touchstart', function (e) {
+      textarea.classList.add('touched'); // visuaalinen efekti
+      setTimeout(() => {
+        e.target.select();
+        // Poistetaan visuaalinen efekti pienen viiveen jälkeen
+        setTimeout(() => textarea.classList.remove('touched'), 300);
+      }, 0);
+    });
+  </script>
+</body>
+</html>
