@@ -1,20 +1,15 @@
-
-var coll = document.getElementsByClassName("collapsible");
-for (var i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function () {
-        var content = this.nextElementSibling;
-        if (content.style.display === "block") {
-            content.style.display = "none";
-        } else {
-            content.style.display = "block";
-        }
-    });
-}
-
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
     loadTable();
     showBottom();
-};
+
+    var coll = document.getElementsByClassName("collapsible");
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            var content = this.nextElementSibling;
+            content.style.display = content.style.display === "block" ? "none" : "block";
+        });
+    }
+});
 
 function addText() {
     var textInput = document.getElementById('textInput').value;
@@ -31,6 +26,21 @@ function addText() {
     addRowToTable(textInput, storedTexts.length - 1);
     document.getElementById('textInput').value = "";
 }
+
+function saveToLocalStorage() {
+    const jsonInput = document.getElementById('jsonInput').value;
+    try {
+        var texts = JSON.parse(jsonInput);
+        localStorage.setItem('texts', JSON.stringify(texts));
+        document.getElementById('jsonInput').value = ''; // Tyhjennä tekstialue
+        loadTable(); // Päivitä arvot taulukkoon
+        showBottom(); // Refresh json
+        alert('Tekstit tallennettu localStorageen!');
+    } catch (e) {
+        alert('Virheellinen JSON-syöte.');
+    }
+}
+
 
 function addRowToTable(text, index) {
     var table = document.getElementById('textTable').getElementsByTagName('tbody')[0];

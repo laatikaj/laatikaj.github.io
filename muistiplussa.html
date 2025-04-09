@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="f9">
+<html lang="fi">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0;" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
     <title>Muisti+ | Kun oma muisti ei riitä</title>
     <meta name="description" content="Jaanan simppeli paikallinen muistilista">
     <meta name="author" content="laatikaj.">
     <link rel="apple-touch-icon" href="/addtask.png">
     <link rel="icon" type="image/png" href="/addtask.png">
     <link rel="apple-touch-startup-image" href="/addtask.png">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link type="text/css" rel="stylesheet" href="muistiplussa.css">
     <!--[if !IE]>-->
     <link type="text/css" rel="stylesheet" media="only screen and (max-device-width: 480px)"
@@ -50,6 +49,10 @@
             <li><code>Ctrl+R</code>: päivittää aktiivisen sivun, joka lataa muistettavat asiat localStoragesta ja näyttää ne taulukossa ja json-muodossa</li>
         </ul>
         </p>
+        <div class="footer">
+            Handmade in Nurmijärvi &copy;
+            <script>document.write(new Date().getFullYear())</script> All rights reserved.
+        </div>
     </div>
 
     <h1>Muisti+</h1>
@@ -71,16 +74,15 @@
     </table>
 
     <p class="collapsible">&lsqb;Stringified json&rsqb;</p>
-    <div class="content">
+    <div class="jsonContent">
+        <div class="json-header">GRAB</div>
         <div id="text-container"></div>
+        <div class="json-header">POST</div>
+        <textarea id="jsonInput" placeholder="[json you want to override into localStorage]"></textarea>
+        <button class="rect" onclick="saveToLocalStorage()">Override</button>
     </div>
 
     <script src="muistiplussa.js"></script>
-
-    <div class="footer w3-padding">
-        Handmade in Nurmijärvi &copy;
-        <script>document.write(new Date().getFullYear())</script> All rights reserved.
-    </div>
 
 </body>
 

@@ -43,6 +43,7 @@ button.rect {
     padding-bottom: 5px;
     padding-left: 15px;
     padding-right: 15px;
+    display:block;
 }
 
 button.edit,
@@ -54,6 +55,7 @@ button.save {
 
 table {
     margin-top: 10px;
+    margin-bottom: 40px;
 }
 
 th {
@@ -69,17 +71,17 @@ code {
     font-size: 9px;
 }
 
-#text-container {
-    font-size: 9px;
-}
-
 .collapsible {
-    margin-top: 40px;
     font-size: 9px;
 }
 
-.content {
+.jsonContent {
     padding: 5px;
+    font-size: 9px;
+}
+
+#text-container {    
+    margin-bottom: 9px;
 }
 
 .delete-checkbox {
@@ -102,9 +104,5 @@ button.about {
 
 .footer {
     font-size: 9px;
-    position: fixed;
-    inline-size: -webkit-fill-available;
-    bottom: 0px;
-    z-index: 100;
-    text-align: center;
+    padding-top: 5px;
 }

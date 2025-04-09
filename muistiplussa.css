@@ -48,6 +48,7 @@ button.rect {
     padding-left: 1.4em;
     padding-right: 1.4em;
     font-size: 1em;
+    display:block;
 }
 
 button.edit,
@@ -87,6 +88,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 1em;
+    margin-bottom: 4em;
 }
 
 th {
@@ -109,24 +111,24 @@ code {
     font-size: 1.1em;
 }
 
-#text-container {
-    font-size: 0.8em;
-    color: rgb(111, 111, 255);
-}
-
 .collapsible {
     color: rgb(111, 111, 255);
-    margin-top: 4em;
     cursor: pointer;
     font-size: 0.8em;
     text-decoration-line: none;
 }
 
-.content {
-    padding: 0.2em;
+.jsonContent {    
     display: none;
     overflow: hidden;
     background-color: #f2f2f2;
+    padding: 0.2em;
+    font-size: 0.8em;
+    color: rgb(111, 111, 255);
+}
+
+#text-container {    
+    margin-bottom: 0.8em;
     cursor: grabbing;
     /* Chrome all / Safari all */
     -webkit-user-select: all;
@@ -136,6 +138,11 @@ code {
     -ms-user-select: all;
     /* Likely future */
     user-select: all;
+}
+
+.json-header {
+    font-weight: 600;
+    color: #333;
 }
 
 .delete-checkbox {
@@ -185,10 +192,7 @@ button.about {
 }
 
 .footer {
-    font-size: 0.8rem;
-    position: fixed;
-    inline-size: -webkit-fill-available;
-    bottom: 0px;
-    z-index: 100;
+    font-size: 0.8em;
     text-align: center;
+    padding-top: 1em;
 }
