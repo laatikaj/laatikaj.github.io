@@ -1,50 +1,100 @@
 <!DOCTYPE html>
 <html lang="fi">
+
 <head>
   <meta charset="UTF-8">
   <title>Textarea Select All</title>
   <style>
-    textarea {
-      width: 300px;
-      height: 150px;
-      padding: 10px;
-      font-size: 16px;
-      transition: background-color 0.3s ease;
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 1.14em;
+      font-size: 0.95em;
+      color: #333;
     }
 
-    /* Desktop only grab cursor on hover */
-    @media (hover: hover) and (pointer: fine) {
-      textarea:hover {
-        cursor: grab;
-      }
+    /* button {
+      background-color: slateblue;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
     }
 
-    /* Visuaalinen indikaatio kosketukselle */
-    textarea.touched {
-      background-color: #e0f7fa; /* vaaleansininen sävy */
+    button.rect {
+      padding-top: 0.4em;
+      padding-bottom: 0.4em;
+      padding-left: 1.4em;
+      padding-right: 1.4em;
+      font-size: 1em;
+      display: block;
+    }
+
+    button:hover {
+      box-shadow: 0 0.1em 0.3em darkslategray;
+    }
+ */
+    .jsonContent {
+      background-color: #f2f2f2;
+      padding: 0.2em;
+      font-size: 0.8em;
+      color: rgb(111, 111, 255);
+    }
+
+    #text-container {
+      margin-bottom: 0.8em;
+      cursor: grabbing;
+    }
+
+    #copy-button {
+      display: none;
+      margin-top: 0.5em;
     }
   </style>
 </head>
+
 <body>
-  <textarea id="myTextarea">Tämä on esimerkkiteksti. Klikkaa tai kosketa valitaksesi koko teksti.</textarea>
+  <p class="collapsible">&lsqb;Stringified json&rsqb;</p>
+  <div class="jsonContent">
+    <div id="text-container">
+      ["xKOLMAS","sdfsd","fsdfdf 4444444444 5555555555555555 66666666666666 33tttttttttttttttt333333333333333 45
+      2222222222222 4444444444444 gggggggggggggggggg","werijih icccchyi iiuyu ","joo"]
+    </div>
+    <!-- <button id="copy-button" class="rect">Copy</button> -->
+  </div>
 
   <script>
-    const textarea = document.getElementById('myTextarea');
+    const textContainer = document.getElementById('text-container');
+    // const copyButton = document.getElementById('copy-button');
 
-    function selectAllText(e) {
-      e.target.select();
-    }
+    textContainer.addEventListener('click', function () {
+      const range = document.createRange();
+      range.selectNodeContents(this);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
 
-    textarea.addEventListener('click', selectAllText);
+      // copyButton.style.display = 'block';
+    });
 
-    textarea.addEventListener('touchstart', function (e) {
-      textarea.classList.add('touched'); // visuaalinen efekti
-      setTimeout(() => {
-        e.target.select();
-        // Poistetaan visuaalinen efekti pienen viiveen jälkeen
-        setTimeout(() => textarea.classList.remove('touched'), 300);
-      }, 0);
+    // copyButton.addEventListener('click', function () {
+    //   try {
+    //     document.execCommand('copy');
+    //     alert('Text copied to clipboard!');
+    //     window.getSelection().removeAllRanges(); // Unselect the text
+    //   } catch (err) {
+    //     alert('Failed to copy text.');
+    //   }
+    // });
+
+    document.addEventListener('selectionchange', function () {
+      const selection = window.getSelection();
+      // if (selection.containsNode(textContainer, true)) {
+      //   copyButton.style.display = 'block';
+      // } else {
+      //   copyButton.style.display = 'none';
+      // }
     });
   </script>
 </body>
+
 </html>
