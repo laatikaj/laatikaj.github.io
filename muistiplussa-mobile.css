@@ -10,7 +10,6 @@ div {
     width: 100% !important;
     float: none !important;
     margin: 0 !important;
-    padding: 0 !important;
 }
 
 h1,
@@ -55,7 +54,6 @@ button.save {
 
 table {
     margin-top: 10px;
-    margin-bottom: 40px;
 }
 
 th {
@@ -73,15 +71,19 @@ code {
 
 .collapsible {
     font-size: 9px;
+    margin-top: 40px;
 }
 
 .jsonContent {
-    padding: 5px;
+    padding-left: 4px;
+    padding-top: 0;
+    padding-bottom: 8px;
+    padding-right: 4px;
     font-size: 9px;
 }
 
-#text-container {    
-    margin-bottom: 9px;
+.json-header {
+    padding-top: 7px;
 }
 
 .delete-checkbox {
@@ -91,8 +93,8 @@ code {
 }
 
 button.about {
-    font-size: 11px;
-    padding-top: 5px;
+    font-size: 20px;
+    padding-top: 3px;
     padding-bottom: 5px;
     padding-left: 9px;
     padding-right: 9px;

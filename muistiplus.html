@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="fi">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0;"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0;" />
     <title>Muisti+ | Kun oma muisti ei riitä</title>
     <link rel="apple-touch-icon" href="/addtask.png">
     <link rel="icon" type="image/png" href="/addtask.png">
@@ -11,89 +12,104 @@
         body {
             font-family: Arial, sans-serif;
             /*margin: 5px; */
-	    margin: 20px;
+            margin: 20px;
         }
-	h1, h2 {
- 	   color: #333;
-	}
-	textarea {
-	    width: 100%;
-	    height: 100px;
-    	    margin-bottom: 10px;
-	    /*resize: none;*/
-	}
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            /*resize: none;*/
+        }
+
         button {
-		padding: 5px 10px;
-		width: 50px;
-    		background-color: #007BFF;
-    		color: white;
-    		border: none;
-    		cursor: pointer;
-    		font-family: Verdana, Arial;
-    		border-radius: 5px;
+            padding: 5px 10px;
+            width: 50px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: Verdana, Arial;
+            border-radius: 5px;
         }
-	button:hover {
-	    background-color: #0056b3;
-	}
-	a {
- 	   display: block;
-	    margin-top: 20px;
-    	    color: #007BFF;
-    	    text-decoration: none;
-	}
-	a:hover {
-    		text-decoration: underline;
-	}
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid #ddd;
-	    padding: 8px;
+            padding: 8px;
             /*text-align: left;*/
             /* font-size: 12px; */
         }
-	th {
- 	   background-color: #f2f2f2;
-    	   text-align: left;
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
         }
+
         button.edit-btn {
             background-color: orange;
         }
-        button.save-btn {
-            
-        }
+
         button.del-btn {
             background-color: red;
         }
+
         .delete-checkbox {
             display: none;
         }
+
         label.delete-label {
             display: none;
             margin-left: 10px;
             margin-right: 3px;
             font-size: 10px;
-            align: middle;
+            text-align: middle;
         }
+
         #text-container {
-	    position: absolute;
-	    bottom: 0; /* set the bottom to 0*/
-	    font-size: 8px;
-	    font-family: "Courier new";
-	    width: 100%;
-	    display: flex;
-	    justify-content: center;
-	    color: blue;
-	    }
+            position: absolute;
+            bottom: 0;
+            /* set the bottom to 0*/
+            font-size: 8px;
+            font-family: "Courier new";
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            color: blue;
+        }
     </style>
 </head>
+
 <body>
 
     <h2>Muisti+</h2>
-    
+
     <textarea id="textInput" placeholder="Kirjoita jotain..."></textarea>
     <button onclick="addText()">Save</button>
 
@@ -108,11 +124,11 @@
             <!-- Tässä taulukon rivit -->
         </tbody>
     </table>
-    
+
     <div id="text-container"></div>
 
     <script>
-        window.onload = function() {
+        window.onload = function () {
             loadTable();
             showBottom();
         };
@@ -145,7 +161,7 @@
             var editButton = document.createElement("button");
             editButton.textContent = "Edit";
             editButton.className = "edit-btn";
-            editButton.onclick = function() {
+            editButton.onclick = function () {
                 toggleEdit(cell1, editButton, checkbox, deleteLabel, index);
             };
 
@@ -177,10 +193,10 @@
             table.innerHTML = "";
 
             var storedTexts = JSON.parse(localStorage.getItem('texts')) || [];
-            storedTexts.forEach(function(text, index) {
+            storedTexts.forEach(function (text, index) {
                 addRowToTable(text, index);
             });
-         
+
         }
 
         function toggleEdit(cell, button, checkbox, deleteLabel, index) {
@@ -206,23 +222,24 @@
                 deleteLabel.style.display = "inline-block";
             }
 
-            checkbox.onchange = function() {
+            checkbox.onchange = function () {
                 button.textContent = checkbox.checked ? "Del" : "Save";
                 button.className = checkbox.checked ? "del-btn" : "save-btn";
             };
         }
-        
-        function showBottom(){
-	        const textContainer = document.getElementById('text-container');
+
+        function showBottom() {
+            const textContainer = document.getElementById('text-container');
             textContainer.textContent = localStorage.getItem('texts');
         }
-        
+
         // Näytetään tekstit kun sivu ladataan
         document.addEventListener('click', showBottom);
-        
+
     </script>
-    
+
 
 
 </body>
+
 </html>

@@ -41,6 +41,22 @@ function saveToLocalStorage() {
     }
 }
 
+function saveToFile() {
+    var text = document.getElementById("text-container").innerText;
+    var blob = new Blob([text], { type: 'text/plain' });
+    
+    var today = new Date();
+    var yyyy = today.getFullYear();
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); // Kuukaudet ovat 0-indeksoituja
+    var dd = String(today.getDate()).padStart(2, '0');
+    var dateStr = `${yyyy}${mm}${dd}`;
+    
+    var filename = `muistiplussa_json_backup_${dateStr}.txt`;
+    var link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+}
 
 function addRowToTable(text, index) {
     var table = document.getElementById('textTable').getElementsByTagName('tbody')[0];
