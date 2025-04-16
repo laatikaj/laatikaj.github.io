@@ -143,6 +143,18 @@ function toggleFAQ() {
 function showBottom() {
     const textContainer = document.getElementById("text-container");
     textContainer.textContent = localStorage.getItem("texts");
+
+    textContainer.addEventListener('click', function () {
+        const range = document.createRange();
+        range.selectNodeContents(this);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+      });
+
+      document.addEventListener('selectionchange', function () {
+        const selection = window.getSelection();
+      });
 }
 
 // Jos haluat, että copy/paste-laatiokssa on koko ajan ajantasainen listaus niin aktivoi eventListener. 

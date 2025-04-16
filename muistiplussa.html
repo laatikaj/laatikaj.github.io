@@ -24,10 +24,11 @@
 
     <div id="faq" class="faq">
         <h3>Fact Sheet&nbsp;&nbsp;&nbsp;&nbsp;#mindbuzz</h3>
-        <p><strong>Onko välimuistisi täynnä? Vapauta tilaa tämän yksinkertaisen appletin avulla!</strong></p>
-        <p>Muisti+ on nopea ja helppokäyttöinen sovelma. Se auttaa tallentamaan ja hallinnoimaan muistettavia asioita paikallisesti hyödyntämällä selaimen localStorage-ominaisuutta. Sovelma on erityisen hyödyllinen, kun tarvitsee yksinkertaisen tavan pitää kirjaa muistettavista asioista ilman ulkoisia palveluilta.</p>
+        <p><strong>Pidä kirjaa muistettavista asioista ilman ulkoisia palveluilta</strong></p>
+        <p>Onko välimuistisi täynnä? Vapauta kapaa tämän yksinkertaisen appletin avulla!</p>
+        <p>Muisti+ on nopea ja robusti sovelma. Voit dumbata muistettavat asiat aivoistasi paikallisesti selaimen localStorageen.</p>
         <p>Kirjoita muistettava asia ja tallenna se listaan. Tallennetut asiat näkyvät taulukossa (uusin ylimpänä) ja niitä voi muokata rivitoimintojen avulla.</p>
-        <p>Sivun alaosassa voit nähdä kaikki alaskirjatut asiat json-muodossa. Tiedot on helppo kopioida leikepöydälle, tallentaa laitteelle (txt-muodossa) tai korvata uudella.
+        <p>Sivun alaosassa oleva Stringified json-osio mahdollistaa muutaman edistyneemmän toiminnon. Muistettavat asiat voi kopioida leikepöydälle (GRAB), tallentaa laitteelle txt-muodossa (STORE) tai  uudella.
         <blockquote>&#x2757;Json päivittyy, vasta kun sivu ladataan. Hyödyllinen ominaisuus jos vahingossa
             poistaa muistettavan asian &ndash; sen löytää vielä json:sta.</blockquote>
             <blockquote>&#x2757;LocalStorage on kaikkein laitteen käyttäjien käytettävissä, joten sitä ei pitäisi käyttää arkaluonteisten tietojen tallentamiseen</blockquote>
@@ -41,6 +42,8 @@
             <li>&#x0274D;: siirtää rivin poistotilaan/muokkaustilaan</li>
             <li>&#x02718;: poistaa rivin taulukosta ja localStoragesta</li>
             <li><code>Stringified json</code>: näyttää localStorageen tallennetut muistettavat asiat json-muodossa</li>
+            <li><code>Download</code>: lataa jsonin tekstimuodossa tiedostoon (tiedostonimessä näkyy latauspäivä) "muistiplussa_json_backup_vvvvkkpp.txt"</li>
+            <li><code>Replace</code>: tallentaa json-muotoisen sisällön localStorageen (vanha sisältö poistuu) ja lataa sisällön taulukkoon</li>
             <li><code>Ctrl+R</code>: päivittää aktiivisen sivun, joka lataa muistettavat asiat localStoragesta ja näyttää ne taulukossa ja json-muodossa</li>
         </ul>
         </p>
@@ -75,8 +78,8 @@
         <div class="json-header">STORE</div>
         <button class="rect" onclick="saveToFile()">Download</button>
         <div class="json-header">POST</div>
-        <textarea id="jsonInput" placeholder="[json you want to override into localStorage]"></textarea>
-        <button class="rect" onclick="saveToLocalStorage()">Override</button>
+        <textarea id="jsonInput" placeholder="[json you want to save to localStorage]"></textarea>
+        <button class="rect" onclick="saveToLocalStorage()">Replace</button>
     </div>
 
     <script src="muistiplussa.js"></script>
