@@ -150,10 +150,12 @@ function showBottom() {
         const selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
+        console.log("Text grabbed");
       });
 
       document.addEventListener('selectionchange', function () {
         const selection = window.getSelection();
+        console.log("Selection changed");
       });
 }
 
