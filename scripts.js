@@ -26,14 +26,14 @@ function detectDeviceType() {
     let deviceName;
     if (userAgentLower.includes("windows")) {
         deviceName = "Windows-laite";
+    } else if (userAgent.includes("iPhone") || userAgent.includes("iPad")) {
+        deviceName = "iOS-laite";
     } else if (userAgentLower.includes("mac")) {
         deviceName = "Mac-laite";
     } else if (userAgentLower.includes("linux")) {
         deviceName = "Linux-laite";
     } else if (userAgentLower.includes("android")) {
         deviceName = "Android-laite";
-    } else if (userAgent.includes("iPhone") || userAgent.includes("iPad")) {
-        deviceName = "iOS-laite";
     } else {
         deviceName = "Tuntematon laite";
     }
@@ -150,6 +150,13 @@ function makeFronttiInfo() {
         if (strProperty) { updateElement('uaInfo', `Käyttäjäagentti: ${strProperty}`); }
         strProperty = getPlatform();
         if (strProperty) { updateElement('platform', `Alusta: ${strProperty}`); }
+        strProperty = getBrands();
+        if (strProperty) { 
+            if (Array.isArray(strProperty)) {
+                let list = arrBrands.map(browser => `<li>${browser.brand}, versio: ${browser.version}</li>`).join('');
+                document.getElementById('brands').innerHTML = `Selaimet: ${arrBrands.length} kpl<ul>${list}</ul>`;
+            }
+        }
 
         updateElement('colorDepth', `Värisyvyys: ${screen.colorDepth} bit`);
         updateElement('pixelDepth', `Pikselisyvyys: ${screen.pixelDepth} bit`);
@@ -159,14 +166,7 @@ function makeFronttiInfo() {
         updateElement('aspectRatio', `- kuvasuhde: ${(screen.width / screen.height).toFixed(2)}`);
         updateElement('windowWidth', `Ikkunan leveys: ${window.innerWidth} px`);
         updateElement('windowHeight', `Ikkunan korkeus: ${window.innerHeight} px`);
-
-        let arrBrands = getBrands();
-        alert('Selaimia?: ' + arrBrands);
-//        if (arrBrands && Array.isArray(arrBrands)) {
-//            let list = arrBrands.map(browser => `<li>${browser.brand}, versio: ${browser.version}</li>`).join('');
-//            document.getElementById('brands').innerHTML = `Selaimet: ${arrBrands.length} kpl<ul>${list}</ul>`;
-//        }
-
+        
         // Kutsu funktiota ja tulosta arvot HTML-sivulle
         if (navigator.userAgentData) {
             getUserAgentHints().then(info => {
