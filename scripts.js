@@ -161,6 +161,7 @@ function makeFronttiInfo() {
         updateElement('windowHeight', `Ikkunan korkeus: ${window.innerHeight} px`);
 
         let arrBrands = getBrands();
+        alert('Selaimia?: ' + arrBrands);
         if (arrBrands && Array.isArray(arrBrands)) {
             let list = arrBrands.map(browser => `<li>${browser.brand}, versio: ${browser.version}</li>`).join('');
             document.getElementById('brands').innerHTML = `Selaimet: ${arrBrands.length} kpl<ul>${list}</ul>`;
