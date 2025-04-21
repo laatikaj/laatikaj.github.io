@@ -89,7 +89,7 @@ function getPlatform() {
 
 // Funktio, jolla tutkitaan onko kyseessä mobiililaite
 function getMobile() {
-    let mobileInfo = navigator.userAgentData.mobile;
+    let mobileInfo = navigator.userAgentData?.mobile ?? "Tuntematon";
     return logAndReturn("getMobile", mobileInfo);
 }
 
