@@ -135,9 +135,7 @@ function makeFronttiInfo() {
     try {
         // Update DOM with texts
         updateElement('logText', `${new Date().toLocaleString()}`);
-
-        let blnMobile = getMobile();
-        updateElement('mobile', `Mobiililaite: ${blnMobile ? 'kyllä' : 'ei'}`);
+        updateElement('mobile', `Mobiililaite: ${getMobile()}`);
 
         let strProperty;
         strProperty = detectDeviceType();
@@ -171,9 +169,9 @@ function makeFronttiInfo() {
         if (navigator.userAgentData) {
             getUserAgentHints().then(info => {
                 if (info) {
-                    if (blnMobile) {
+                    if (info.modelInfo) {
                         updateElement('mobileModel', `Mobililaitteen malli: ${info.modelInfo}`);
-                    };
+                    }
                     if (info.architectureInfo) {
                         updateElement('architecture', `Käyttöjärjestelmän arkkitehtuuri: ${info.architectureInfo}`);
                     }
