@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laitteen frontti-info</title>
+    <meta name="description"
+        content="Tulostaa sivulle tiedot kyseisen laitteen näytöstä: laitteen tyyppi, näytön resoluutio, virkistystaajuus, kirkkaus, käyttöjärjestelmän tiedot ja selaimen tiedot">
+    <meta name="author" content="laatikaj.">
+    <script src="scripts.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 20px;
+            background-color: black;
+            color: white;
+        }
+
+        h1 {
+            font-family: Papyrus, Harrington, Wisp, Arkana, Rivendell, Lucida Handwriting, Apple Chancery, Brush Script;
+            margin-bottom: 10px;
+            font-size: xx-large;
+            color: palevioletred;
+        }
+
+        .footer {
+            font-size: x-small;
+            color: palevioletred;
+            font-family: monospace, Courier;
+            position: fixed;
+            text-align: center;
+            inline-size: -webkit-fill-available;
+            bottom: 0px;
+            z-index: 10;
+        }
+
+        .info {
+            margin-bottom: 10px;
+            font-family: monospace, Courier;
+            font-weight: 500;
+            font-size: medium;
+            text-shadow:
+                0 0 1vw palevioletred,
+                0 0 3vw palevioletred,
+                0 0 10vw palevioletred;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Kerro kerro kuvastin...</h1>
+
+    <div class="info" id="uaInfo"></div>
+    <div class="info" id="deviceName"></div>
+    <div class="info" id="mobile"></div>
+    <div class="info" id="mobileModel"></div>
+    <div class="info" id="platform"></div>
+    <div class="info" id="platformVersion"></div>
+    <div class="info" id="architecture"></div>
+    <div class="info" id="bitness"></div>
+    <div class="info" id="resolution"></div>
+    <div class="info" id="screenWidth"></div>
+    <div class="info" id="screenHeight"></div>
+    <div class="info" id="aspectRatio"></div>
+    <div class="info" id="colorDepth"></div>
+    <div class="info" id="pixelDepth"></div>
+    <div class="info" id="refreshRate"></div>
+    <div class="info" id="brightness"></div>
+    <div class="info" id="orientation"></div>
+    <div class="info" id="brands"></div>
+    <div class="info" id="formFactor"></div>
+    <div class="info" id="screenHeight"></div>
+    <div class="info" id="screenWidth"></div>
+    <div class="info" id="windowWidth"></div>
+    <div class="info" id="windowHeight"></div>
+
+
+    <script>
+        makeFronttiInfo();       
+    </script>
+
+    <div class="footer">
+        Handmade in Nurmijärvi &copy;
+        <script>document.write(new Date().getFullYear())</script> All rights reserved.
+    </div>
+
+</body>
+
+</html>
