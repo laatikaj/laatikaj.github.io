@@ -46,12 +46,20 @@
                 0 0 3vw palevioletred,
                 0 0 10vw palevioletred;
         }
+
+        .log {
+            margin-bottom: 10px;
+            font-family: monospace, Courier;
+            font-size: x-small;
+            color: rgb(100, 94, 96);
+        }
+
     </style>
 </head>
 
 <body>
     <h1>Kerro kerro kuvastin...</h1>
-
+    <div class="log" id="logText"></div>
     <div class="info" id="uaInfo"></div>
     <div class="info" id="deviceName"></div>
     <div class="info" id="mobile"></div>
@@ -75,7 +83,6 @@
     <div class="info" id="screenWidth"></div>
     <div class="info" id="windowWidth"></div>
     <div class="info" id="windowHeight"></div>
-
 
     <script>
         makeFronttiInfo();       
