@@ -4,10 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laitteen frontti-info</title>
+    <title>DOM-navigaattori</title>
     <meta name="description"
-        content="Tulostaa sivulle tiedot kyseisen laitteen näytöstä: laitteen tyyppi, näytön resoluutio, virkistystaajuus, kirkkaus, käyttöjärjestelmän tiedot ja selaimen tiedot">
+        content="Etsii DOM-rajapinnan kautta tietoja laitteesta, näytöstä, käyttöjärjestelmästä ja selaimesta.">
     <meta name="author" content="laatikaj.">
+    <link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <link rel="shortcut icon" href="/assets/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="laatikaj.apps" />
+    <link rel="manifest" href="/assets/site.webmanifest" />
     <script src="scripts.js"></script>
 
     <style>
@@ -53,45 +59,39 @@
             font-size: x-small;
             color: rgb(100, 94, 96);
         }
-
     </style>
 </head>
 
 <body>
-    <h1>Kerro kerro kuvastin...</h1>
+    <h1>Kerro, kerro kuvastin...</h1>
     <div class="log" id="logText"></div>
     <div class="info" id="uaInfo"></div>
     <div class="info" id="deviceName"></div>
     <div class="info" id="mobile"></div>
-    <div class="info" id="mobileModel"></div>
+    <div class="info" id="mobileModel"></div> <!--todo-->
     <div class="info" id="platform"></div>
-    <div class="info" id="platformVersion"></div>
-    <div class="info" id="architecture"></div>
-    <div class="info" id="bitness"></div>
+    <div class="info" id="platformVersion"></div> <!--todo-->
+    <div class="info" id="architecture"></div> <!--todo-->
+    <div class="info" id="bitness"></div> <!--todo-->
     <div class="info" id="resolution"></div>
     <div class="info" id="screenWidth"></div>
     <div class="info" id="screenHeight"></div>
     <div class="info" id="aspectRatio"></div>
     <div class="info" id="colorDepth"></div>
     <div class="info" id="pixelDepth"></div>
-    <div class="info" id="refreshRate"></div>
     <div class="info" id="brightness"></div>
     <div class="info" id="orientation"></div>
     <div class="info" id="brands"></div>
-    <div class="info" id="formFactor"></div>
+    <div class="info" id="formFactor"></div> <!--todo-->
     <div class="info" id="screenHeight"></div>
     <div class="info" id="screenWidth"></div>
     <div class="info" id="windowWidth"></div>
     <div class="info" id="windowHeight"></div>
+    <div class="footer" id="footer"></div>
 
     <script>
-        makeFronttiInfo();       
+        buildDocument();       
     </script>
-
-    <div class="footer">
-        Handmade in Nurmijärvi &copy;
-        <script>document.write(new Date().getFullYear())</script> All rights reserved.
-    </div>
 
 </body>
 

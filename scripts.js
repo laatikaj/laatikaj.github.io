@@ -21,8 +21,8 @@ function logAndReturn(label, value) {
 
 // Funktio tutkii navigator.userAgent-merkkijonoa käyttämällä includes-metodia, joka etsii avainsanoja
 function detectDeviceType() {
-    const userAgent = navigator.userAgent;
-    const userAgentLower = userAgent.toLowerCase(); // Convert to lowercase for case-insensitive matching
+    let userAgent = navigator.userAgent;
+    let userAgentLower = userAgent.toLowerCase(); // Convert to lowercase for case-insensitive matching
     let deviceName;
     if (userAgentLower.includes("windows")) {
         deviceName = "Windows-laite";
@@ -37,76 +37,53 @@ function detectDeviceType() {
     } else {
         deviceName = "Tuntematon laite";
     }
-
     return logAndReturn("detectDeviceType", deviceName);
 }
 
 // Funktio näytön resoluution hakemiseen
 function getScreenResolution() {
-    console.log(`getScreenResolution >> ${screen.width} x ${screen.height}`);
     return logAndReturn("getScreenResolution", screen.width + " x " + screen.height + " px");
-}
-
-// Funktio näytön virkistystaajuuden hakemiseen
-function getRefreshRate() {
-    if (window.screen && window.screen.refreshRate) {
-        return window.screen.refreshRate + " Hz";
-    }
-    console.log('getRefreshRate >> Tuntematon');
-    return null;
 }
 
 // Funktio näytön kirkkauden hakemiseen
 function getBrightness() {
-    if (window.screen && window.screen.brightness) {
-        return window.screen.brightness + " %";
-    }
-    console.log('getBrightness >> Tuntematon');
-    return null;
+    let brightness = screen.brightness || screen.mozBrightness || screen.msBrightness || "Tuntematon";
+    return logAndReturn("getBrightness", "Näytön kirkkaus (%): " + brightness);
 }
 
 // Funktio näytön orientaation hakemiseen
 function getOrientation() {
-    if (screen.orientation) {
-        console.log(`getOrientation >> ${screen.orientation.type}`);
-        return (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation || "Tuntematon";
-    }
-    console.log('getOrientation >> Tuntematon');
-    return null;
+    return logAndReturn("getOrientation", screen.orientation.type || screen.mozOrientation || screen.msOrientation || "Tuntematon");
 }
 
 // Funktio käyttäjäagentin tietojen hakemiseen
 function getUserAgent() {
-    let uaInfo = navigator.userAgent;
-    return logAndReturn("getUserAgent", uaInfo);
+    return logAndReturn("getUserAgent", navigator.userAgent ?? "Tuntematon");
 }
 
 // Funktio alustan hakemiseen
 function getPlatform() {
-    let platformInfo = navigator.userAgentData?.platform ?? "Tuntematon";
-    return logAndReturn("getPlatform", platformInfo);
+    return logAndReturn("getPlatform", navigator.userAgentData?.platform ?? "Tuntematon");
 }
 
 // Funktio, jolla tutkitaan onko kyseessä mobiililaite
 function getMobile() {
-    let mobileInfo = navigator.userAgentData?.mobile ?? "Tuntematon";
-    return logAndReturn("getMobile", mobileInfo);
+    return logAndReturn("getMobile", navigator.userAgentData?.mobile ?? "Tuntematon");
 }
 
 // Funktio selainten nimien ja versioiden hakemiseen
 function getBrands() {
-    if (navigator.userAgentData?.brands) {
-        const brandsInfo = navigator.userAgentData?.brands;
-        if (brandsInfo && Array.isArray(brandsInfo)) {
-            console.log(`getBrands >> ${brandsInfo.length}`);
-            brandsInfo.forEach(browser => {
-                console.log(`Selaimen nimi: ${browser.brand}, Versio: ${browser.version}`);
-            });
-            return brandsInfo;
-        } else {
-            console.log('getBrands >> User-Agent Client Hints ei ole tuettu tässä selaimessa tai brandsInfo ei ole taulukko.');
-            return [];
-        }
+    let brandsInfo = navigator.userAgentData?.brands;
+    if (brandsInfo && Array.isArray(brandsInfo)) {
+        return brandsInfo.map(brand => {
+            return {
+                brand: brand.brand,
+                version: brand.version
+            };
+        });
+    } else {
+        console.log('Selainten tietoja ei ole saatavilla.');
+        return [];
     }
 }
 
@@ -114,8 +91,8 @@ async function getUserAgentHints() {
     // Tarkista, tukeeko selain User-Agent Client Hints -ominaisuutta
     if (navigator.userAgentData) {
         // Pyydä tietoja käyttöjärjestelmästä ja laitteesta
-        const ua = navigator.userAgentData?.getHighEntropyValues 
-            ? await navigator.userAgentData.getHighEntropyValues(['platformVersion', 'architecture', 'bitness', 'model', 'formFactor']) 
+        const ua = navigator.userAgentData?.getHighEntropyValues
+            ? await navigator.userAgentData.getHighEntropyValues(['platformVersion', 'architecture', 'bitness', 'model', 'formFactor'])
             : {};
 
         return {
@@ -131,42 +108,57 @@ async function getUserAgentHints() {
     }
 }
 
-function makeFronttiInfo() {
+function buildDocument() {
     try {
-        // Update DOM with texts
-        updateElement('logText', `${new Date().toLocaleString()}`);
-        updateElement('mobile', `Mobiililaite: ${getMobile()}`);
 
-        let strProperty;
-        strProperty = detectDeviceType();
-        if (strProperty) { updateElement('deviceName', `Laitteen tyyppi: ${strProperty}`); }
-        strProperty = getRefreshRate();
-        if (strProperty) { updateElement('refreshRate', `Virkistystaajuus: ${strProperty}`); }
-        strProperty = getBrightness();
-        if (strProperty) { updateElement('brightness', `Näytön kirkkaus: ${strProperty}`); }
-        strProperty = getOrientation();
-        if (strProperty) { updateElement('orientation', `Näytön orientaatio: ${strProperty}`); }
-        strProperty = getUserAgent();
-        if (strProperty) { updateElement('uaInfo', `Käyttäjäagentti: ${strProperty}`); }
-        strProperty = getPlatform();
-        if (strProperty) { updateElement('platform', `Alusta: ${strProperty}`); }
-        strProperty = getBrands();
-        if (strProperty) { 
-            if (Array.isArray(strProperty)) {
-                let list = arrBrands.map(browser => `<li>${browser.brand}, versio: ${browser.version}</li>`).join('');
-                document.getElementById('brands').innerHTML = `Selaimet: ${arrBrands.length} kpl<ul>${list}</ul>`;
-            }
+        // Päättele arvot
+        let mobileStatus = getMobile();
+        if (mobileStatus === true) {
+            mobileStatus = "Mobiililaite: Kyllä";
+        } else if (mobileStatus === false) {
+            mobileStatus = "Mobiililaite: Ei";
+        } else {
+            mobileStatus = "Mobiililaite: Tuntematon";
         }
 
+
+
+
+        // Update DOM with texts
+        updateElement('logText', `${new Date().toLocaleString()}`);
+        updateElement('uaInfo', `Käyttäjäagentti: ${getUserAgent()}`);
+        updateElement('deviceName', `Laitteen tyyppi: ${detectDeviceType()}`);
+        updateElement('mobile', mobileStatus);
+        updateElement('platform', `Alusta: ${getPlatform()}`);
+        updateElement('resolution', `Näytön resoluutio: ${screen.width} x ${screen.height} px`);
+        updateElement('screenHeight', `- korkeus/käytettävissä: ${screen.height}/${screen.availHeight} px`);
+        updateElement('screenWidth', `- leveys/käytettävissä: ${screen.width}/${screen.availWidth} px`);
+        updateElement('aspectRatio', `- kuvasuhde: ${(screen.width / screen.height).toFixed(2)}`);
         updateElement('colorDepth', `Värisyvyys: ${screen.colorDepth} bit`);
         updateElement('pixelDepth', `Pikselisyvyys: ${screen.pixelDepth} bit`);
-        updateElement('resolution', `Näytön resoluutio: ${screen.width} x ${screen.height} px`);
-        updateElement('screenHeight', `- korkeus: ${screen.height} px (käytettävissä ${screen.availHeight} px)`);
-        updateElement('screenWidth', `- leveys: ${screen.width} px (käytettävissä ${screen.availWidth} px)`);
-        updateElement('aspectRatio', `- kuvasuhde: ${(screen.width / screen.height).toFixed(2)}`);
+        updateElement('brightness', getBrightness());
+        updateElement('orientation', `Näytön orientaatio: ${getOrientation()}`);
+
+        let arrBrands = getBrands();
+        if (arrBrands.length > 0) {
+            let list = arrBrands.map(browser => `<li>${browser.brand}, versio: ${browser.version}</li>`).join('');
+            document.getElementById('brands').innerHTML = `Selaimet: ${arrBrands.length} kpl<ul>${list}</ul>`;
+        } else {
+            document.getElementById('brands').innerHTML = "Selaimia ei löytynyt."; 
+        }
+
         updateElement('windowWidth', `Ikkunan leveys: ${window.innerWidth} px`);
         updateElement('windowHeight', `Ikkunan korkeus: ${window.innerHeight} px`);
-        
+
+        //tässä kesken
+
+ 
+
+
+
+
+
+
         // Kutsu funktiota ja tulosta arvot HTML-sivulle
         if (navigator.userAgentData) {
             getUserAgentHints().then(info => {
@@ -189,6 +181,10 @@ function makeFronttiInfo() {
                 }
             });
         }
+
+        let footer = "Handmade in Nurmijärvi \u00A9 " + new Date().getFullYear() + " All rights reserved.";
+        updateElement('footer', footer);
+
     } catch (error) {
         alert(`Virhe: ${error.message}`);
     }
