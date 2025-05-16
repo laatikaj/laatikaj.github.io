@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 2em;
+    background-color: #f2f2f2;
+    color: #333;
+}
+form {
+    background: white;
+    padding: 1em;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+textarea {
+    padding: 0.5em;
+    margin-top: 0.5em;
+    width: 100%;
+    box-sizing: border-box;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 1em;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+td:last-child {
+    white-space: nowrap;
+}
+
+button {
+    padding: 0.2em;
+    margin-right: 0.5em;
+    font-size: 0.9em;
+    cursor: pointer;
+
+}
+.muokkaa-nappi {
+    background-color: #4CAF50; /* vihreä */
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+.poista-nappi {
+    background-color: #f44336; /* punainen */
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+.napit-rivilla {
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+}
+
+.napit-rivilla button,
+.napit-rivilla input[type="file"] {
+    padding: 0.5em 1em;
+    font-size: 1em;
+}
+input[type="file"] {
+    padding: 0.5em 1em;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    height: 40px;
+    box-sizing: border-box;
+}

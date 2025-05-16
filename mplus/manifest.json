@@ -1,0 +1,9 @@
+{
+  "name": "Muistiinpanot IndexedDB",
+  "short_name": "Muistiinpanot",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2e8b57",
+  "icons": []
+}

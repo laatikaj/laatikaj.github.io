@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muistiinpanot IndexedDB</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Muistiinpanot</h1>
+
+    <form id="lomake">
+        <textarea id="muistiinpano" placeholder="Kirjoita muistiinpano" rows="4" required></textarea>
+        <button type="submit">Tallenna</button>
+    </form>
+
+    <h2>Muistiinpanot</h2>
+    <table id="muistiinpanotTaulukko">
+        <!-- Taulukon rivit lisätään tähän -->
+    </table>
+    
+    <div class="napit-rivilla">
+        <button id="exportBtn">📤 Vie JSON</button>
+    </div>
+    
+    <div class="napit-rivilla">
+        <label for="importFile" class="custom-file-upload">
+            🗂️ Valitse tiedosto
+        </label>
+        <input type="file" id="importFile" accept=".json" style="display:none;">
+    </div>
+    
+    <div class="napit-rivilla">
+        <button id="clearBtn">🗑️ Tyhjennä kaikki muistiinpanot</button>
+    </div>
+
+    <script src="app.js"></script>
+
+    <script>
+        if (location.protocol !== 'file:' && 'serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(reg => console.log('Service Worker rekisteröity', reg))
+                .catch(err => console.error('Service Worker epäonnistui', err));
+        }
+    </script>
+</body>
+</html>
