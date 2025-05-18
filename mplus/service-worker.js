@@ -1,6 +1,6 @@
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open('muistilaput-cache').then((cache) => {
+    caches.open('muistilaput-cache-v1').then((cache) => {
       return cache.addAll([
         'index.html',
         'app.js',
