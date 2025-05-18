@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Value Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="header">Sortable List of Values</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Idx</th>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody id="myrows">
+            <tr>
+                <td>1</td>
+                <td>Firstkey</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Secondkey</td>
+                <td>20,1</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="bottom-bar">
+        <button><span class="icon">➕</span> Add</button>
+        <button><span class="icon">✏️</span> Edit</button>
+        <button><span class="icon">🗑️</span> Delete</button>
+    </div>
+
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <p>Removed this shall be. Are you sure?</p>
+            <div class="modal-buttons">
+                <button id="confirmYes">Yes</button>
+                <button id="confirmCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
