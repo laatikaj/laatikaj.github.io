@@ -2,21 +2,28 @@
 <html lang="fi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muistiinpanot IndexedDB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <title>Muisti+ | Kun oma muisti ei riitä</title>
+    <meta name="description" content="Ihanan simppeli ja paikallinen muistilista">
+    <meta name="author" content="laatikaj.">
+    <link rel="icon" type="image/png" href="../assets/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="shortcut icon" href="../assets/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="laatikaj.apps" />
+    <link rel="manifest" href="../assets/site.webmanifest" />
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="stylesheet" href="styles.css">
+    <link type="text/css" rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <h1>Muistiinpanot</h1>
 
+<body>
+    <h1>Muisti+</h1>
     <form id="lomake">
-        <textarea id="muistiinpano" placeholder="Kirjoita muistiinpano" rows="4" required></textarea>
-        <button type="submit">Tallenna</button>
+        <textarea id="muistiinpano" placeholder="Mitä haluat muistaa?" rows="4" required></textarea>
+        <button type="submit">Kirjaa alas</button>
     </form>
 
-    <h2>Muistiinpanot</h2>
     <table id="muistiinpanotTaulukko">
         <!-- Taulukon rivit lisätään tähän -->
     </table>
