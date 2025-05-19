@@ -56,25 +56,30 @@ function paivitaTaulukko() {
     taulukko.innerHTML = "";  // Tyhjennetään taulukko
 
     haeMuistilaput().then(muistilaput => {
-        muistilaput.forEach(muistilappu => {
+        muistilaput.forEach((muistilappu, index) => {
             const rivi = document.createElement("tr");
 
-            // Teksti soluun
+            // Numero-solu
+            const soluNumero = document.createElement("td");
+            soluNumero.textContent = index + 1;
+            soluNumero.className = "idx";
+            rivi.appendChild(soluNumero);
+
+
+            // Teksti-solu
             const soluteksti = document.createElement("td");
             soluteksti.textContent = muistilappu.teksti;
             rivi.appendChild(soluteksti);
 
-            // Toiminnot soluun
+            // Toiminnot-solu
             const solutoiminnot = document.createElement("td");
 
-            // Muokkauspainike
             const muokkaaBtn = document.createElement("button");
             muokkaaBtn.innerHTML = '<i class="fas fa-edit"></i>';
             muokkaaBtn.className = 'edit';
             muokkaaBtn.onclick = () => muokkaaMuistilappua(muistilappu.id, muistilappu.teksti);
             solutoiminnot.appendChild(muokkaaBtn);
 
-            // Poistopainike
             const poistaBtn = document.createElement("button");
             poistaBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
             poistaBtn.className = 'clear';
@@ -84,19 +89,116 @@ function paivitaTaulukko() {
             rivi.appendChild(solutoiminnot);
             taulukko.appendChild(rivi);
         });
+
     });
 }
 
 function muokkaaMuistilappua(id, vanhaTeksti) {
-    const uusiTeksti = prompt("Muokkaa muistilappua:", vanhaTeksti); // Näytetään nykyinen teksti promptissa
-    if (uusiTeksti !== null && uusiTeksti.trim() !== "") { //Tallennetaan jos tekstiä on
-        const transaction = db.transaction(["muistilaput"], "readwrite");
-        const store = transaction.objectStore("muistilaput");
-        store.put(uusiTeksti, id).onsuccess = () => {  // Tallennetaan uusi teksti ID:n mukaan
-            paivitaTaulukko(); // Päivitetään taulukko
-        };
+    const taulukko = document.getElementById("muistilaputTaulukko");
+    const rivit = taulukko.getElementsByTagName("tr");
+
+    for (let rivi of rivit) {
+        const solut = rivi.getElementsByTagName("td");
+        if (solut.length >= 3 && solut[1].textContent === vanhaTeksti) {
+            rivi.classList.add("muokkaus"); // korostus
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.value = vanhaTeksti;
+            input.style.width = "100%";
+            input.autofocus = true;
+
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    tallennaMuokkaus();
+                } else if (e.key === "Escape") {
+                    peruutaBtn.click();
+                }
+            });
+
+            input.addEventListener("blur", () => {
+                setTimeout(() => {
+                    if (document.body.contains(input)) {
+                        tallennaMuokkaus();
+                    }
+                }, 100);
+            });
+
+
+            // Säilötään alkuperäinen teksti varmuuden vuoksi
+            const alkuperainenHTML = solut[1].innerHTML;
+            solut[1].innerHTML = "";
+            solut[1].appendChild(input);
+            input.focus();
+
+            // Tallenna-painike
+            const tallennaBtn = document.createElement("button");
+            tallennaBtn.innerHTML = '<i class="fas fa-check"></i>';
+            tallennaBtn.className = 'edit';
+            tallennaBtn.title = "Tallenna";
+            tallennaBtn.onclick = () => {
+                tallennaMuokkaus();
+            };
+
+            // Peruuta-painike
+            const peruutaBtn = document.createElement("button");
+            peruutaBtn.innerHTML = '<i class="fas fa-times"></i>';
+            peruutaBtn.className = 'clear';
+            peruutaBtn.title = "Peruuta";
+            peruutaBtn.onclick = () => {
+                solut[1].innerHTML = vanhaTeksti;
+                solut[2].innerHTML = "";
+                solut[2].appendChild(muokkaaBtn);
+                solut[2].appendChild(poistaBtn);
+                rivi.classList.remove("muokkaus"); // poista korostus
+            };
+
+            // Alkuperäiset muokkaa/poista-painikkeet
+            const muokkaaBtn = document.createElement("button");
+            muokkaaBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            muokkaaBtn.className = 'edit';
+            muokkaaBtn.onclick = () => muokkaaMuistilappua(id, vanhaTeksti);
+
+            const poistaBtn = document.createElement("button");
+            poistaBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            poistaBtn.className = 'clear';
+            poistaBtn.onclick = () => poistaMuistilappu(id);
+
+            // Korvaa painikkeet
+            solut[2].innerHTML = "";
+            solut[2].appendChild(tallennaBtn);
+            solut[2].appendChild(peruutaBtn);
+
+            // Enter = tallenna, Esc = peruuta
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    tallennaMuokkaus();
+                } else if (e.key === "Escape") {
+                    peruutaBtn.click();
+                }
+            });
+
+            let onTallennettu = false;
+
+            function tallennaMuokkaus() {
+                if (onTallennettu) return; // Estetään tuplatallennus
+                onTallennettu = true;
+
+                const uusiTeksti = input.value.trim();
+                if (uusiTeksti !== "") {
+                    const transaction = db.transaction(["muistilaput"], "readwrite");
+                    const store = transaction.objectStore("muistilaput");
+                    store.put(uusiTeksti, id).onsuccess = () => {
+                        rivi.classList.remove("muokkaus");
+                        paivitaTaulukko();
+                    };
+                }
+            }
+            break;
+        }
     }
 }
+
 
 function poistaMuistilappu(id) {
     const vahvistus = confirm("Haluatko varmasti poistaa tämän muistilapun?");

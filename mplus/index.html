@@ -28,8 +28,8 @@
     <table>
         <thead>
             <tr>
-
-                <th>Muistilappu</th>
+                <th class="idx">Nro</th>
+                <th>Muistilaput</th>
                 <th class="action">Muokkaa</th>
             </tr>
         </thead>
@@ -41,14 +41,20 @@
     <div class="accordion">
         <details>
             <summary>Tiedonhallinta</summary>
-            <div>
-                <button class="rect accordion" id="exportTxt">📤 Vie (.txt)</button>
-                <button class="rect accordion" id="exportJson">📤 Vie (.json)</button>
-                <button class="rect accordion" id="clearObjectStore">🗑️ Poista data</button>
-                <label for="importJson" class="custom-file-upload accordion">
-                    🗂️ Tuo (.json)
+            <div class="button-container">
+                <button class="rect accordion" id="exportTxt">
+                    <i class="fas fa-file-export"></i> Vie (.txt)
+                </button>
+                <button class="rect accordion" id="exportJson">
+                    <i class="fas fa-file-export"></i> Vie (.json)
+                </button>
+                <button class="rect accordion" id="clearObjectStore">
+                    <i class="fas fa-trash-alt"></i> Poista data
+                </button>
+                <label for="importJson" class="rect accordion">
+                    <i class="fas fa-folder-open"></i> Tuo (.json)
                 </label>
-                <input type="file" id="importJson" accept=".json" style="display:none;">
+                <input type="file" id="importJson" accept=".json" style="display: none;">
             </div>
         </details>
     </div>
