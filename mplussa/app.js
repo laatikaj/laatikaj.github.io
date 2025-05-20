@@ -1,5 +1,5 @@
 
-import Dexie from 'https://cdn.jsdelivr.net/npm/dexie@3.2.5/dist/dexie.mjs';
+import Dexie from 'https://cdn.jsdelivr.net/npm/dexie@4.0.11/dist/dexie.min.js';
 
 const db = new Dexie("MuistiPlusDB");
 db.version(14).stores({
