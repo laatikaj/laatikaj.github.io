@@ -31,8 +31,23 @@ function initializeEventListeners() {
             addText();
         });
     }
+    const exportTxt = document.getElementById('exportTxt');
+    if (exportTxt) {
+        exportTxt.addEventListener('click', () => exportData('txt'));
+    }
+    const exportJson = document.getElementById('exportJson');
+    if (exportJson) {
+        exportJson.addEventListener('click', () => exportData('json'));
+    }
+    const fileInput = document.getElementById('importJson');
+    if (fileInput) {
+        fileInput.addEventListener('change', importData);
+    }
+    const deleteData = document.getElementById('clearObjectStore');
+    if (deleteData) {
+        deleteData.addEventListener('click', () => clearObjectStore());
+    }
 }
-
 async function addText() {
     const inputEl = document.getElementById('textInput');
     const textInput = inputEl.value.trim();
@@ -50,7 +65,7 @@ async function addText() {
             inputEl.value = "";
         } catch (error) {
             console.error("Virhe tallennuksessa:", error);
-            alert("Muistilapun lisääminen epäonnistui.");
+            showNotification("Muistilapun lisääminen epäonnistui.", "error");   
         }
     }
 }
@@ -60,7 +75,8 @@ async function safeLoadTable() {
         await loadTable();
     } catch (error) {
         console.error("Error loading table:", error);
-        alert("Virhe tapahtui taulukon lataamisen aikana. Yritä myöhemmin uudelleen.");
+        showNotification("Virhe tapahtui taulukon lataamisen aikana. Yritä myöhemmin uudelleen.", "error");
+
     }
 }
 
@@ -77,12 +93,9 @@ function addRowToTable(item, toTop = false) {
     const newRow = table.insertRow(toTop ? 0 : -1);
     newRow.setAttribute('data-id', item.id);
 
-    const idCell = newRow.insertCell(0);
-    const textCell = newRow.insertCell(1);
-    const actionCell = newRow.insertCell(2);
+    const textCell = newRow.insertCell(0);
+    const actionCell = newRow.insertCell(1);
 
-    idCell.textContent = item.id;
-    idCell.className = "idx";
     textCell.textContent = item.muistilappu;
     textCell.setAttribute('contentEditable', 'false');
 
@@ -166,7 +179,7 @@ async function handleSave(id, cell, button, checkbox) {
 
 function validateInput(input) {
     if (!input) {
-        alert("Muistilappu ei saa olla tyhjä!");
+        showNotification("Muistilappu ei saa olla tyhjä!", "error");
         return false;
     }
     return true;
@@ -177,7 +190,7 @@ async function deleteRow(id) {
         await db.muistilaput.delete(id);
     } catch (error) {
         console.error("Virhe poistossa:", error);
-        alert("Muistilapun poistaminen epäonnistui.");
+        showNotification("Muistilapun poistaminen epäonnistui.", "error");
     }
 }
 
@@ -217,7 +230,7 @@ async function updateDatabase(id, updatedText) {
         });
     } catch (error) {
         console.error("Virhe päivityksessä:", error);
-        alert("Muistilapun päivittäminen epäonnistui.");
+        showNotification("Muistilapun päivittäminen epäonnistui.", "error");
     }
 }
 
@@ -246,4 +259,116 @@ function resetButtonAndCheckbox(button, checkbox) {
 function toggleFAQ() {
     const faq = document.getElementById('faq');
     faq.classList.toggle('visible');
+}
+
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+        try {
+            const muistilaputArray = JSON.parse(e.target.result);
+            if (!Array.isArray(muistilaputArray)) throw new Error("Virheellinen tiedostomuoto.");
+
+            const timestamp = new Date().toISOString();
+            const newObjects = muistilaputArray.map(item => {
+                if (typeof item === "string") {
+                    return { muistilappu: item, muokattu: timestamp };
+                } else if (typeof item === "object" && item.muistilappu) {
+                    return { muistilappu: item.muistilappu, muokattu: timestamp };
+                } else {
+                    throw new Error("Virheellinen muistilapun muoto.");
+                }
+            });
+
+            await db.muistilaput.bulkAdd(newObjects);
+            showNotification("Tiedot tuotu onnistuneesti.", "success");
+            safeLoadTable();
+        } catch (error) {
+            console.error("Virhe tuonnissa:", error);
+            showNotification("Tiedostoa ei voitu tuoda. Varmista, että tiedosto on oikeassa muodossa.", "error");
+        }
+        finally {
+            // Tyhjennetään tiedostovalitsin
+            event.target.value = ""; 
+        }
+    };
+    reader.readAsText(file);
+}
+
+function exportData(format) {
+    const sallitutFormaatit = ["json", "txt"];
+    if (!sallitutFormaatit.includes(format)) {
+        showNotification(`Tuntematon vientimuoto: "${format}". Sallittuja ovat: ${sallitutFormaatit.join(", ")}`, "info");
+        return;
+    }
+    db.muistilaput.toArray().then((data) => {
+        if (!data || data.length === 0) {
+            showNotification("Ei vietävää dataa.", "info");
+            return;
+        }
+        let blob;
+        try {
+
+            if (format === 'txt') {
+                let text = 'MUISTI+LAPUT (' + data.length + ')\n\n';
+                text += data.map(item => item.muistilappu).join('\n\n');
+                text += '\n\n\n--------------------------------\nLadattu: ' + new Date().toLocaleString();
+                blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            }
+            else {
+                const muistilaputOnly = data.map(item => item.muistilappu);
+                const json = JSON.stringify(muistilaputOnly, null, 2);
+                blob = new Blob([json], { type: 'application/json' });
+            }
+            const now = new Date();
+            const pad = n => n.toString().padStart(2, '0');
+            const yyyymmdd = now.getFullYear().toString() +
+                pad(now.getMonth() + 1) +
+                pad(now.getDate());
+            const hhmmss = pad(now.getHours()) +
+                pad(now.getMinutes()) +
+                pad(now.getSeconds());
+            const timestamp = `${yyyymmdd}_${hhmmss}`;
+            const fileName = `Muisti+laput_${timestamp}.${format}`;
+
+
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        catch (error) {
+            console.error("Virhe vientiprosessissa:", error);
+            showNotification("Tiedoston vienti epäonnistui. Yritä uudelleen.", "error");
+        }
+    });
+}
+
+function clearObjectStore() {
+    const vahvistus = confirm("Haluatko varmasti poistaa KAIKKI muistilaput?");
+    if (!vahvistus) return; // Ei poisteta, jos käyttäjä peruuttaa
+    // Poistetaan muistilaput
+    db.muistilaput.clear().then(() => {
+        safeLoadTable();
+        showNotification("Kaikki muistilaput poistettu.", "success");
+    }).catch((error) => {
+        console.error("Virhe poistossa:", error);
+        showNotification("Muistilappujen poisto epäonnistui.", "error");
+    });
+}
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }
