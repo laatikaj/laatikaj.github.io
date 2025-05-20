@@ -20,10 +20,6 @@ function setCurrentYear() {
 }
 
 function initializeEventListeners() {
-    const addTextButton = document.getElementById('addTextButton');
-    if (addTextButton) {
-        addTextButton.addEventListener('click', addText);
-    }
     const faqButton = document.getElementById('faqButton');
     if (faqButton) {
         faqButton.addEventListener('click', toggleFAQ);
