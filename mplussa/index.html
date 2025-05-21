@@ -14,6 +14,13 @@
     <meta name="apple-mobile-web-app-title" content="laatikaj.apps" />
     <link rel="manifest" href="../assets/site.webmanifest" />
     <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link type="text/css" rel="stylesheet" href="styles.css">
 </head>
@@ -21,17 +28,16 @@
 <body>
     <button class="about" id="faqButton">&#x1F41D;</button>
     <div id="faq" class="faq">
-        <h3>Fact Sheet&nbsp;&nbsp;&nbsp;&nbsp;#mindbuzz</h3>
-        <p><strong>Pidä kirjaa muistettavista asioista ilman ulkoisia palveluilta</strong></p>
-        <p>Onko välimuistisi täynnä? Vapauta kapaa tämän yksinkertaisen appletin avulla!</p>
-        <p>Muisti+ on nopea ja robusti sovelma. Voit dumbata muistettavat asiat aivoistasi paikallisesti selaimen
-            IndexedDB:hen.</p>
+        <h2 class="pacifico-regular">Fact Sheet&nbsp;&nbsp;&nbsp;&nbsp;#mindbuzz</h2>
+        <p><strong>Onko välimuistisi täynnä? Vapauta kapaa tämän yksinkertaisen appletin avulla!</strong></p>
+        <p>Muisti+ on nopea ja robusti sovelma, jonka avulla voit dumbata muistettavat asiat aivoistasi paikallisesti selaimen
+            IndexedDB:hen. Muisti+ toimii myös offline!</p>
         <p>Kirjoita muistettava asia ja tallenna se listaan. Tallennetut asiat näkyvät taulukossa (uusin ylimpänä) ja
             niitä voi muokata rivitoimintojen avulla.</p>
         <p>Sivun alaosassa oleva Tiedonhallinta-osio mahdollistaa muutaman edistyneemmän toiminnon. Muistettavat asiat
-            voi tallentaa laitteelle txt- ja json-muodoissa tai lisätä json-tiedoston sisällön muistilappuihin.
+            voi tallentaa laitteelle txt- ja json-muodoissa tai lisätä json-tiedoston sisällön muistilappuihin. Voit myös poistaa kaikki muistilaput kahdella klikkauksella (kysyy varmistuskysymyksen).</p>
         <blockquote>&#x2757;IndexedDB on kaikkein laitteen käyttäjien käytettävissä, joten sitä ei pitäisi käyttää
-            arkaluonteisten tietojen tallentamiseen</blockquote>
+            arkaluonteisten tietojen tallentamiseen.</blockquote>
         <blockquote>&#x2757;Kannattaa backuppaa muistilaput, koska joskus selain <i>saattaa</i> tyhjätä storagensa. On
             ok myös hyväksyä, että se mitä et muista, palaa pöydälle, jos sillä olikin merkitystä.</blockquote>
         </p>
@@ -54,17 +60,17 @@
         </div>
     </div>
 
-    <h1>Muisti+</h1>
+    <h1 class="pacifico-regular">Muisti+</h1>
     <form id="lomake">
         <textarea id="textInput" placeholder="Mitä haluat muistaa?" required></textarea>
-        <button class="rect" type="submit" id="addTextButton">Kirjaa alas</button>
+        <button class="rect fredoka-regular" type="submit" id="addTextButton">Kirjaa alas</button>
     </form>
 
     <table>
         <thead>
             <tr>
-                <th>Muistilaput</th>
-                <th>Muokkaa</th>
+                <th class="bebas-neue-regular">Muistilaput</th>
+                <th class="bebas-neue-regular ">Muokkaa</th>
             </tr>
         </thead>
         <tbody id="textTable">
@@ -74,18 +80,18 @@
 
     <div class="accordion">
         <details>
-            <summary>Tiedonhallinta</summary>
+            <summary class="bebas-neue-regular">Tiedonhallinta</summary>
             <div class="button-container">
-                <button class="rect accordion" id="exportTxt">
+                <button class="rect accordion fredoka-regular" id="exportTxt">
                     <i class="fas fa-file-export"></i> Vie (.txt)
                 </button>
-                <button class="rect accordion" id="exportJson">
+                <button class="rect accordion fredoka-regular" id="exportJson">
                     <i class="fas fa-file-export"></i> Vie (.json)
                 </button>
-                <button class="rect accordion" id="clearObjectStore">
+                <button class="rect accordion fredoka-regular" id="clearObjectStore">
                     <i class="fas fa-trash-alt"></i> Poista data
                 </button>
-                <label for="importJson" class="rect accordion">
+                <label for="importJson" class="rect accordion fredoka-regular">
                     <i class="fas fa-folder-open"></i> Tuo (.json)
                 </label>
                 <input type="file" id="importJson" accept=".json" style="display: none;">

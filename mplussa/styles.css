@@ -1,17 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap');
+
 :root {
-    --button-primary-bg-color: slateblue;
-    --button-secondary-bg-color: #fefdfd;
-    --button-hover-shadow-color: rgba(47, 79, 79, 0.5);
-    --text-primary-color: #333;
-    --text-secondary-color: #666;
-    --positive-color: #4caf50;
-    --neutral-color: #323232;
-    --negative-color: #d32f2f;
+
+    /* Värit */
+    /* 
+    --button-primary-bg-color2: #323232;
+    --button-secondary-bg-color2: #fefdfd;
+    --button-info-bg-color2: #ffb570;
+    --button-hover-shadow-color2: rgba(47, 79, 79, 0.5);
+    --text-primary-color2: #333;
+    --text-secondary-color2: #666;
+    --positive-color2: #4caf50;
+    --neutral-color2: #323232;
+    --negative-color2: #d32f2f;
+    --information-color2: #ffe8be;
+    --border-color2: #ddd;
+    --div-bg-color2: #f2f2f2; */
+    /* 
+    --button-primary-bg-color4: #2c3e50; 
+    --button-secondary-bg-color4: #f8f9f9; 
+    --button-info-bg-color4: #f39c12;
+    --button-hover-shadow-color4: rgba(44, 62, 80, 0.4); 
+    --text-primary-color4: #2c3e50;
+    --text-secondary-color4: #7f8c8d; 
+    --positive-color4: #27ae60; 
+    --neutral-color4: #95a5a6; 
+    --negative-color4: #c0392b;
+    --information-color4: #fbe1b8; 
+    --border-color4: #dcdcdc; 
+    --div-bg-color4: #ecf0f1; 
+    */
+    --button-primary-bg-color: #6a5acd;
+    --button-secondary-bg-color: #f8f9f9;
+    --button-info-bg-color: #6a5acd;
+    --button-hover-shadow-color: rgba(44, 62, 80, 0.4);
+    --text-primary-color: #120f23;
+    --text-secondary-color: #7c7996;
+    --positive-color: #78cd5a;
+    --neutral-color: #6a5acd;
+    --negative-color: #cd5a83;
+    --information-color: #e5ebbd;
+    --border-color: #dcdcdc;
+    --div-bg-color: #ecf0f1;
 }
 
 body {
-    /* Fonttipino eri laitteiden ja käyttöjärjestelmien välisen yhdenmukaisuuden ja luettavuuden takaamiseksi. Tämä pino varmistaa, että teksti näyttää hyvältä eri laitteilla. Katso lisätietoja: https://developer.mozilla.org/en-US/docs/Web/CSS/font-family */
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /* Fonttipino eri laitteiden ja käyttöjärjestelmien välisen yhdenmukaisuuden ja luettavuuden
+     takaamiseksi. Tämä pino varmistaa, että teksti näyttää hyvältä eri laitteilla.
+     Katso lisätietoja: https://developer.mozilla.org/en-US/docs/Web/CSS/font-family */
+    font-family: system-ui, 
+        -apple-system, 
+        BlinkMacSystemFont, 
+        'Segoe UI', 
+        Roboto, 
+        Oxygen, 
+        Ubuntu, 
+        Cantarell, 
+        'Open Sans', 
+        'Helvetica Neue', 
+        sans-serif;
     margin: 1.14em;
     font-size: 0.95em;
     color: var(--text-primary-color);
@@ -25,7 +72,6 @@ body {
     }
 }
 
-/* Otsikot */
 h1, h2, h3 {
     margin: 0;
 }
@@ -38,7 +84,7 @@ h3 { font-size: 1.5em; }
 textarea {
     width: 100%;
     height: 4.4em;
-    border: 1px solid #c9c9c9;
+    border: 1px solid var(--border-color);
     font-size: 1.14em;
     white-space: pre-line;
     box-sizing: border-box;
@@ -52,13 +98,14 @@ table {
 }
 
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     padding: 0.5em;
     text-align: left;
 }
 
 th {
-    background-color: #e6e6fa;
+    background-color: var(--information-color);
+    font-size: 1.2em;
 }
 
 td {
@@ -69,6 +116,7 @@ th:last-child,
 td:last-child {
     width: 5%;
     white-space: nowrap;
+    text-align: center;
 }
 
 /* Napit ja labelit */
@@ -92,7 +140,7 @@ button, label {
 .rect.accordion {
     background-color: var(--button-secondary-bg-color);
     color: var(--text-primary-color);                 
-    border: 1px solid #c9c9c9;      
+    border: 1px solid var(--border-color);      
     flex: 1 1 20%;
     min-width: 120px;
     box-sizing: border-box;
@@ -109,7 +157,7 @@ button.save {
 }
 
 button.edit {
-    background-color: #ffb570;
+    background-color: var(--button-info-bg-color);
 }
 
 button.clear {
@@ -118,7 +166,7 @@ button.clear {
 }
 
 button.save {
-    background-color: var(--button-primary-bg-color);
+    background-color: var(--positive-color);
 }
 
 button.about {
@@ -176,7 +224,7 @@ code {
     display: none;
     max-width: 100%;
     padding: 0.8em 0.8em 0.8em 2em;
-    background-color: rgba(255, 166, 0, 0.255);
+    background-color: var(--information-color);
 }
 
 .faq.visible {
@@ -204,7 +252,7 @@ details > div {
     flex-wrap: wrap;
     row-gap: 0.4em;
     justify-content: flex-start;
-    background-color: #f2f2f2;
+    background-color: var(--div-bg-color);
     margin: 0 0.2em;
     border: 1px solid #ddd;
 }
@@ -212,16 +260,17 @@ details > div {
 summary {
     margin-top: 1em;
     padding: 0.5em;
-    border: 1px solid #ddd;
-    background-color: #e6e6fa;
+    border: 1px solid var(--border-color);
+    background-color: var(--information-color);
     cursor: pointer;
+    font-size: 1.14em;
 }
 .notification {
     position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #323232;
+    background-color: var(--neutral-color);
     color: #fff;
     padding: 12px 24px;
     border-radius: 6px;
@@ -237,4 +286,21 @@ summary {
 }  
 .notification.info {
     background-color: var(--neutral-color);
+}
+.bebas-neue-regular {
+  font-family: "Bebas Neue";
+  font-weight: 400;
+  font-style: normal;
+}
+.pacifico-regular {
+  font-family: "Pacifico";
+  font-weight: 400;
+  font-style: normal;
+}
+.fredoka-regular {
+  font-family: "Fredoka";
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
 }
