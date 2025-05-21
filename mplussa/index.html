@@ -20,7 +20,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link type="text/css" rel="stylesheet" href="styles.css">
 </head>
@@ -44,19 +43,18 @@
         <p>Toiminnot
         <ul>
             <li><code>Kirjaa alas</code>: tallentaa tekstialueen sisällön ja näyttää sen taulukossa uutena rivinä</li>
-            <li>&#x0270E;: siirtää rivin muokkaustilaan</li>
-            <li>&#x02714;: siirtää rivin takaisin lukutilaan, ja tallentaa rivin tiedot (tarvittaessa) muistiin</li>
+            <li><i class="fas fa-edit"></i>: siirtää rivin muokkaustilaan</li>
+            <li><i class="fas fa-check"></i>: siirtää rivin takaisin lukutilaan, ja tallentaa rivin tiedot (tarvittaessa) muistiin</li>
             <li>&#x0274D;: siirtää rivin poistotilaan/muokkaustilaan</li>
-            <li>&#x02718;: poistaa rivin taulukosta ja tietokannasta</li>
-            <li><code>Vie</code>: lataa muistilaput tekstimuodossa tiedostoon (tiedostonimessä näkyy latauspäivä)
-                "muistiplussa_json_backup_vvvvkkpp.txt"</li>
+            <li><i class="fas fa-trash-alt"></i>: poistaa rivin taulukosta ja tietokannasta</li>
+            <li><code>Vie</code>: lataa muistilaput tiedostoon (txt/json) - tiedostonimestä näkee muodon sekä latausajan: Muisti+laput_[vvvvkkpp_hhmmss].[file-format]</li>
             <li><code>Tuo</code>: tallentaa json-muotoisen sisällön tietokantaan (vanha sisältö säilyy) ja lataa
                 sisällön taulukkoon</li>
         </ul>
         </p>
         <div class="footer">
-            Handmade in Nurmijärvi &copy;
-            <span id="currentYear"></span> laatikaj. All rights reserved.
+            Handmade in Nurmijärvi<br>
+            Copyright &copy; <span id="currentYear"></span> laatikaj. All rights reserved.
         </div>
     </div>
 
