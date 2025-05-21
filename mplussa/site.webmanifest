@@ -1,22 +1,23 @@
 {
   "name": "Muisti+ | Kun oma muisti ei riitä",
   "short_name": "Muisti+",
-  "start_url": "index.html",
+  "start_url": "/mplussa/index.html",
   "display": "standalone",
   "background_color": "#ecf0f1",
   "theme_color": "#120f23",
   "icons": [
     {
-      "src": "/web-app-manifest-192x192.png",
+      "src": ".../assets/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/web-app-manifest-512x512.png",
+      "src": ".../assets/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "scope": "/mplussa/"
 }
