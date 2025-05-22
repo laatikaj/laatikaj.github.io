@@ -2,7 +2,7 @@
   "name": "Muisti+ | Kun oma muisti ei riitä",
   "short_name": "Muisti+",
   "start_url": "/mplussa/index.html",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#ecf0f1",
   "theme_color": "#120f23",
   "icons": [
