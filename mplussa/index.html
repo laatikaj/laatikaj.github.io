@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
     <title>Muisti+ | Kun oma muisti ei riitä</title>
-    <meta name="description" content="Jaanan simppeli paikallinen muistilista">
+    <meta name="description" content="Ihanan simppeli paikallinen muistilista">
     <meta name="author" content="laatikaj.">
     <link rel="icon" type="image/png" href="../assets/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
     <link rel="shortcut icon" href="../assets/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="laatikaj.apps" />
+    <meta name="apple-mobile-web-app-title" content="Muisti+" />
     <link rel="manifest" href="/mplussa/site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -29,7 +29,7 @@
         <h2 class="pacifico-regular">Fact Sheet&nbsp;&nbsp;&nbsp;&nbsp;#mindbuzz</h2>
         <p><strong>Onko välimuistisi täynnä? Vapauta kapaa tämän yksinkertaisen appletin avulla!</strong></p>
         <p>Muisti+ on nopea ja robusti sovelma, jonka avulla voit dumbata muistettavat asiat aivoistasi paikallisesti selaimen
-            IndexedDB:hen. Muisti+ toimii myös offline!</p>
+            IndexedDB:hen. Muistiplussa toimii myös offline!</p>
         <p>Kirjoita muistettava asia ja tallenna se listaan. Tallennetut asiat näkyvät taulukossa (uusin ylimpänä) ja
             niitä voi muokata rivitoimintojen avulla.</p>
         <p>Sivun alaosassa oleva Tiedonhallinta-osio mahdollistaa muutaman edistyneemmän toiminnon. Muistettavat asiat
@@ -98,7 +98,16 @@
 
     <script type="module" src="app.js"></script>
 
-    <!-- TODO: Service Worker registration -->
+    <!-- Service Worker registration -->
+    <!-- 
+    <script>
+        if (location.protocol !== 'file:' && 'serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(reg => console.log('Service Worker rekisteröity', reg))
+                .catch(err => console.error('Service Worker epäonnistui', err));
+        }
+    </script>
+    -->
      
 </body>
 

@@ -2,7 +2,9 @@
   "name": "Muisti+ | Kun oma muisti ei riitä",
   "short_name": "Muisti+",
   "start_url": "/mplussa/index.html",
-  "display": "browser",
+  "display": "browser", 
+  "description": "Muisti+ on nopea ja robusti sovelma, jonka avulla voit dumbata muistettavat asiat aivoistasi selaimen tietokantaan. Muisti+ toimii myös offline!",
+  "lang": "fi",
   "background_color": "#ecf0f1",
   "theme_color": "#120f23",
   "icons": [

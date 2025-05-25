@@ -1,9 +1,8 @@
-const CACHE_NAME = 'muistilaput-cache-v1'; // vaihda versio aina kun tiedostoja päivitetään
+const CACHE_NAME = 'mplussa-cache-v1'; // Muuta versio aina kun tiedostoja päivitetään
 const ASSETS_TO_CACHE = [
   'index.html',
   'app.js',
-  'styles.css',
-  'manifest.json'
+  'styles.css'
 ];
 
 // Asennus: tallenna tiedostot välimuistiin
