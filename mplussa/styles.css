@@ -3,33 +3,6 @@
 :root {
 
     /* Värit */
-    /* 
-    --button-primary-bg-color2: #323232;
-    --button-secondary-bg-color2: #fefdfd;
-    --button-info-bg-color2: #ffb570;
-    --button-hover-shadow-color2: rgba(47, 79, 79, 0.5);
-    --text-primary-color2: #333;
-    --text-secondary-color2: #666;
-    --positive-color2: #4caf50;
-    --neutral-color2: #323232;
-    --negative-color2: #d32f2f;
-    --information-color2: #ffe8be;
-    --border-color2: #ddd;
-    --div-bg-color2: #f2f2f2; */
-    /* 
-    --button-primary-bg-color4: #2c3e50; 
-    --button-secondary-bg-color4: #f8f9f9; 
-    --button-info-bg-color4: #f39c12;
-    --button-hover-shadow-color4: rgba(44, 62, 80, 0.4); 
-    --text-primary-color4: #2c3e50;
-    --text-secondary-color4: #7f8c8d; 
-    --positive-color4: #27ae60; 
-    --neutral-color4: #95a5a6; 
-    --negative-color4: #c0392b;
-    --information-color4: #fbe1b8; 
-    --border-color4: #dcdcdc; 
-    --div-bg-color4: #ecf0f1; 
-    */
     --button-primary-bg-color: #6a5acd;
     --button-secondary-bg-color: #f8f9f9;
     --button-info-bg-color: #6a5acd;
@@ -45,9 +18,8 @@
 }
 
 body {
-    /* Fonttipino eri laitteiden ja käyttöjärjestelmien välisen yhdenmukaisuuden ja luettavuuden
-     takaamiseksi. Tämä pino varmistaa, että teksti näyttää hyvältä eri laitteilla.
-     Katso lisätietoja: https://developer.mozilla.org/en-US/docs/Web/CSS/font-family */
+    /* Fonttipino varmistaa, että teksti näyttää hyvältä eri laitteilla, 
+    lisätietoja: https://developer.mozilla.org/en-US/docs/Web/CSS/font-family */
     font-family: system-ui, 
         -apple-system, 
         BlinkMacSystemFont, 
@@ -63,11 +35,13 @@ body {
     font-size: 0.95em;
     color: var(--text-primary-color);
     margin-bottom: 10em;
+    -webkit-text-size-adjust: none;
 }
 
 @media (max-width: 768px) {
     body {
         margin: 0.7em;
+        font-size: 0.75em;
         margin-bottom: 5em;
     }
 }
@@ -110,6 +84,7 @@ th {
 
 td {
     overflow-wrap: anywhere;
+    vertical-align: top !important;
 }
 
 th:last-child,
