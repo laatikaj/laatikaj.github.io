@@ -23,6 +23,19 @@ function initializeEventListeners() {
     if (faqButton) {
         faqButton.addEventListener('click', toggleFAQ);
     }
+    const factSheetAd = document.getElementById('factSheetAd');
+    if (factSheetAd) {
+        const factSheetAds = ['Fact Sheet >', 'Fact Sheet >>', 'Fact Sheet >', 'Fact Sheet >',''];
+        let index = 0;
+        const interval = setInterval(() => {
+            factSheetAd.textContent = factSheetAds[index];
+            index++;
+            if (index >= factSheetAds.length) {
+                clearInterval(interval);
+            }
+        }, 500);
+        factSheetAd.textContent = '';
+    }
     const form = document.getElementById('lomake');
     if (form) {
         form.addEventListener('submit', (event) => {
@@ -64,7 +77,7 @@ async function addText() {
             inputEl.value = "";
         } catch (error) {
             console.error("Virhe tallennuksessa:", error);
-            showNotification("Muistilapun lisääminen epäonnistui.", "error");   
+            showNotification("Muistilapun lisääminen epäonnistui.", "error");
         }
     }
 }
@@ -290,7 +303,7 @@ function importData(event) {
         }
         finally {
             // Tyhjennetään tiedostovalitsin
-            event.target.value = ""; 
+            event.target.value = "";
         }
     };
     reader.readAsText(file);

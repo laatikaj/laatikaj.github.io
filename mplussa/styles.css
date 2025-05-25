@@ -144,14 +144,22 @@ button.save {
     background-color: var(--positive-color);
 }
 
+.bannerText {
+    font-size: 1.4em;
+    position: fixed;
+    z-index: 101;
+    top: 0.6em;
+    right: 3em;
+}
+
 button.about {
     border-radius: 50%;
     position: fixed;
     z-index: 100;
     top: 0;
     right: 0;
-    font-size: 1.4em;
-    background-color: #fff;
+    font-size: 1.6em;
+    background-color: var(--information-color);
     margin: 0.4em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
