@@ -36,6 +36,7 @@ body {
     color: var(--text-primary-color);
     margin-bottom: 10em;
     -webkit-text-size-adjust: none;
+    text-size-adjust: none;
 }
 
 @media (max-width: 768px) {
@@ -83,7 +84,8 @@ th {
 }
 
 td {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    word-break: break-all;
     vertical-align: top !important;
 }
 
@@ -212,6 +214,10 @@ code {
 
 .faq.visible {
     display: block;
+}
+
+#importJson {
+    display: none;
 }
 
 /* Footer */
