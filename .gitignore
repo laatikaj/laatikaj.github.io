@@ -1,3 +1,7 @@
-portfolio/service-worker.js
-mplussa/service-worker.js
 mplussa/read.me
+muistiplus/cloudflare-worker.js
+portfolio/cloudflare-worker.js
+portfolio/cloudflare-worker2.js
+portfolio/cloudflare-worker-uusiindex.js
+muistiplus/*
+portfolio/*

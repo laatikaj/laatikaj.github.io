@@ -51,8 +51,8 @@
         <button onclick="verifyKey()">Jatka</button>
 
         <div id="stockSection" class="hidden">
-            <input type="text" id="symbol" placeholder="Syötä ticker (esim. AAPL)">
-            <button onclick="fetchStockInfo()">Hae</button>
+            <input type="text" id="query">
+            <button onclick="fetchData()">Hae</button>
             <div id="result" class="info"></div>
         </div>
         <p id="error" style="color:red;"></p>
@@ -80,26 +80,53 @@
             }
         }
 
-        async function fetchStockInfo() {
-            const symbol = document.getElementById("symbol").value.toUpperCase();
+        async function fetchData() {
+            const query = document.getElementById("query").value.trim();
             try {
-                const response = await fetch(`${workerUrl}?symbol=${symbol}&key=${accessKey}`);
+                //const response = await fetch(`${workerUrl}?query=${query}&key=${accessKey}`);
 
+                const endpoint = workerUrl + "/market-data?key=" + accessKey;
+const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      requests: [{
+        sql: `
+          SELECT * 
+          FROM stocks
+        `
+      }]
+    })
+  });
+                
                 // if (!response.ok) {
                 //     const errorData = await response.json();
                 //     throw new Error(`Virhe: ${errorData.error}`);
                 // }
+  const data = await response.json();
+  const rows = data?.results?.[0]?.response?.result?.rows ?? [];
+                 // Muunna array-rivit objektilistaksi
+  const stocks = rows.map(r => ({
+    id: r?.[0]?.value ?? '',
+    user_id:        r?.[1]?.value ?? '',
+    ticker:    r?.[2]?.value ?? '',
+    name:      r?.[3]?.value ?? '',
+    created_at:      r?.[4]?.value ?? ''
+  }));
 
-                const data = await response.json();
 
-                document.getElementById("result").innerHTML = `
-                <strong>${data.name || symbol}</strong><br>
-                <img src="${data.logo}" alt="Logo"><br>
-                <strong>Toimiala:</strong> ${data.industry || "Ei saatavilla"}<br>
-                <strong>Markkina-arvo:</strong> ${data.marketCap?.toLocaleString() || "Ei saatavilla"} USD<br>
-                <strong>Nykyhinta:</strong> ${data.currentPrice?.toFixed(2) || "?"} USD<br>
-                <strong>Osinkotuotto:</strong> ${data.dividendYield ? (data.dividendYield * 100).toFixed(2) + " %" : "Ei saatavilla"}
-                `;
+
+                document.getElementById("result").innerHTML = `<pre>${stocks}</pre>`;
+
+
+                // document.getElementById("result").innerHTML = `
+                // <strong>${data.name || symbol}</strong><br>
+                // <img src="${data.logo}" alt="Logo"><br>
+                // <strong>Toimiala:</strong> ${data.industry || "Ei saatavilla"}<br>
+                // <strong>Markkina-arvo:</strong> ${data.marketCap?.toLocaleString() || "Ei saatavilla"} USD<br>
+                // <strong>Nykyhinta:</strong> ${data.currentPrice?.toFixed(2) || "?"} USD<br>
+                // <strong>Osinkotuotto:</strong> ${data.dividendYield ? (data.dividendYield * 100).toFixed(2) + " %" : "Ei saatavilla"}
+                // `;
             } catch (error) {
                 document.getElementById("result").innerHTML = `<span style="color:red;">${error.message}</span>`;
                 console.error(error);
