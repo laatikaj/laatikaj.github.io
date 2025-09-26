@@ -5,3 +5,4 @@ portfolio/cloudflare-worker2.js
 portfolio/cloudflare-worker-uusiindex.js
 muistiplus/*
 portfolio/*
+.vscode/*
