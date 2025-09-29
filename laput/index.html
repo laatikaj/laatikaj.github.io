@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muisti+ | Kun oma muisti ei riitä</title>
+    <meta name="description" content="Ihanan simppeli muistilista">
+    <meta name="author" content="laatikaj.">
+    <meta name="apple-mobile-web-app-title" content="Muisti+" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link type="text/css" rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+
+
+    <h1 class="pacifico-regular">Muisti+</h1>
+
+    <div><!-- Kirjuri selection -->
+        <select id="kirjuri-select" title="Kirjuri"></select>
+        <input type="password" id="key-id" placeholder="Avain...">
+    </div>
+
+    <form id="quick-insert-form">
+        <textarea id="quick-teksti" maxlength="2000" rows="5" placeholder="Mitä haluat muistaa?"></textarea>
+
+        <div class="insert-data">
+            <button type="submit" class="rect fredoka-regular">
+                <i class="fa-solid fa-cloud"></i>&nbsp; Kirjaa alas
+            </button>
+            <small id="char-count">0 / 2000</small>
+        </div>
+    </form>
+
+    <div class="get-data">
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Hae...">
+            <button title="Search" type="submit" class="rect secondary fredoka-regular">
+                <i class="fa-solid fa-rotate"></i>
+            </button>
+        </form>
+    </div>
+
+    <div id="notification"></div>
+
+    <table id="notes-table">
+        <thead>
+            <tr>
+                <th class="bebas-neue-regular hidden">Nro</th>
+                <th class="bebas-neue-regular">Muistilaput</th>
+                <th class="bebas-neue-regular fixed-width">Kirjattu</th>
+                <th class="bebas-neue-regular">Muokkaa</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- Table rows added here -->
+        </tbody>
+    </table>
+
+    <div class="footer">
+        Handmade in Nurmijärvi<br>
+        Copyright &copy; <span id="currentYear"></span> laatikaj. All rights reserved.
+    </div>
+
+    <!-- Sovellus (ESM) -->
+    <script src="app.js" type="module"></script>
+
+    <noscript>
+        <p>Tarvitset JavaScriptin käyttääksesi Muisti+ -sovellusta.</p>
+    </noscript>
+
+</body>
+
+</html>
