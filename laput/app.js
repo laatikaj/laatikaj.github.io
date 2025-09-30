@@ -338,7 +338,7 @@ function enterEditMode(tr, note, { editBtn, deleteCheckbox }) {
 
     // Validointi
     if (!isValidNote(newText)) {
-      showNotification('error', 'Muistilapun tulee olla 1–2000 merkkiä');
+      showNotification('error', 'Muistilappu ei ole validi, korjaa sisältöä'); 
       return;
     }
 
@@ -403,7 +403,7 @@ document.getElementById('quick-insert-form')?.addEventListener('submit', async (
   const teksti = (input.value ?? '').trim();
 
   if (!isValidNote(teksti)) {
-    showNotification('error', 'Muistilapun tulee olla 1–2000 merkkiä.');
+    showNotification('error', 'Muistilappu ei ole validi, korjaa sisältöä'); 
     return;
   }
 
