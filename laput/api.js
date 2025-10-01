@@ -47,12 +47,23 @@ export async function fetchNotes(kirjuri_id_val, key_id) {
     const rows = data?.results?.[0]?.response?.result?.rows ?? [];
 
     // Muunna array-rivit objektilistaksi
-    const notes = rows.map(r => ({
-        muistilappu_id: r?.[0]?.value ?? '',
-        teksti: r?.[1]?.value ?? '',
-        kirjuri_id: r?.[2]?.value ?? '',
-        muokattu: r?.[3]?.value ?? ''
-    }));
+    const notes = rows.map(r => {
+        const muokattuRaw = r?.[3]?.value ?? '';
+        let muokattu = '';
+        if (muokattuRaw) {
+            const d = new Date(muokattuRaw);
+            if (!isNaN(d)) {
+                const pad = n => n.toString().padStart(2, '0');
+                muokattu = `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear().toString().slice(-2)} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+            }
+        }
+        return {
+            muistilappu_id: r?.[0]?.value ?? '',
+            teksti: r?.[1]?.value ?? '',
+            kirjuri_id: r?.[2]?.value ?? '',
+            muokattu
+        };
+    });
 
     return notes;
 }

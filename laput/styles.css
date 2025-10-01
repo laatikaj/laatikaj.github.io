@@ -121,6 +121,17 @@ td.hidden {
     display: none;
 }
 
+th.fixed-width {
+    width: 6em;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    th.fixed-width {
+        width: 3em;
+    }
+}
+
 th:last-child,
 td:last-child {
     width: 5%;
