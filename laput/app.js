@@ -13,8 +13,8 @@ let allKirjurit = [];
 // Tarkistaa pituuden, kieltää tietyt merkit ja estää XSS
 function isValidNote(text) {
   if (typeof text !== 'string' || text.length === 0 || text.length > 2000) return false;
-  // Kielletyt merkit: < > & " ' ` = / \ [ ]
-  if (/[<>&"'`=\/\\\[\]]/.test(text)) return false;
+  // Kielletyt merkit: < " ' ` [ ]
+  if (/[<"'`\[\]]/.test(text)) return false;
   // Estä ohjausmerkit (ASCII < 32, pois lukien \n ja \r)
   if (/[<\u0000-\b\u000b\u000c\u000e-\u001f>]/.test(text)) return false;
   // Estä script-tagit ja event-attribuutit
@@ -26,8 +26,8 @@ function isValidNote(text) {
     console.warn('isValidNote: Suspicious content detected.');
     return false;
   }
-  // Estä URL-osoitteet
-  if (/(https?:\/\/|ftp:\/\/|file:\/\/)/i.test(text)) return false;
+  // Estä URL-osoitteet http ja ftp
+  if (/(^http:\/\/|^ftp:\/\/)/i.test(text)) return false;
   // Estä toistuvat merkit (esim. 10+ samaa merkkiä)
   if (/(.)\1{9,}/.test(text)) return false;
   // Estä SQL-avainsanat
@@ -338,7 +338,7 @@ function enterEditMode(tr, note, { editBtn, deleteCheckbox }) {
 
     // Validointi
     if (!isValidNote(newText)) {
-      showNotification('error', 'Muistilapun tulee olla 1–2000 merkkiä');
+      showNotification('error', 'Muistilappu ei ole validi, korjaa sisältöä'); 
       return;
     }
 
@@ -403,7 +403,7 @@ document.getElementById('quick-insert-form')?.addEventListener('submit', async (
   const teksti = (input.value ?? '').trim();
 
   if (!isValidNote(teksti)) {
-    showNotification('error', 'Muistilapun tulee olla 1–2000 merkkiä.');
+    showNotification('error', 'Muistilappu ei ole validi, korjaa sisältöä'); 
     return;
   }
 
