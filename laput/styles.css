@@ -70,10 +70,11 @@ textarea {
     width: 100%;
     height: 4.4em;
     border: 1px solid var(--border-color);
-    white-space: pre-line;
+    white-space: pre;
     font-family: inherit;
     box-sizing: border-box;
     margin-top: 0.7em;
+    font-size: 1em;
 }
 
 select {
@@ -82,9 +83,11 @@ select {
     padding: 0.1em;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
     border: 1px solid var(--border-color);
     font-family: inherit;
+    font-size: 1em;
     box-sizing: border-box;
     padding: 0.2em;
 }
@@ -111,11 +114,6 @@ td {
     overflow-wrap: break-word;
     word-break: break-all;
     vertical-align: top !important;
-}
-
-th.fixed-width {
-    width: 4.4em;
-    white-space: nowrap;
 }
 
 th.hidden,
@@ -158,8 +156,6 @@ label {
     padding: 0.2em 1.4em;
 }
 
-
-
 /* Accordion-napit */
 .rect.accordion {
     background-color: var(--button-secondary-bg-color);
@@ -193,6 +189,7 @@ button.save-button {
     background-color: var(--positive-color);
 }
 
+/* FAQ-ikkuna */
 .bannerText {
     font-size: 1.4em;
     position: fixed;
@@ -267,18 +264,18 @@ code {
     display: none;
 }
 
-/* Flexibles */
+/* Flexiblet rivit */
 .get-data {
     display: flex;
     margin: 0.5em 0.1em 1em 2em;
-    justify-content:flex-end;
+    justify-content: flex-end;
     align-items: center;
     margin: 0.1em 0em 0.5em 0em;
 }
 
 .insert-data {
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: start;
 }
 
@@ -324,11 +321,14 @@ summary {
     transform: translateX(-50%);
     background-color: var(--neutral-color);
     color: #fff;
-    padding: 12px 24px;
+    padding: 0.5em 0.75em;
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     z-index: 9999;
-    font-size: 0.95rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .notification.error {
@@ -361,17 +361,4 @@ summary {
     font-weight: 400;
     font-style: normal;
     font-variation-settings: "wdth" 100;
-}
-
-#success,
-#error {
-    margin-top: 10px;
-}
-
-#success {
-    color: var(--positive-color);
-}
-
-#error {
-    color: var(--negative-color);
 }

@@ -85,7 +85,7 @@ function showNotification(type, message) {
     throw new Error('Required element #notification is missing in HTML.');
   }
 
-  notification.innerHTML = `<span>${message}</span><button id="notif-close" style="margin-left:1em;background:none;border:none;font-size:1.2em;cursor:pointer;width:2em;height:2em;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;">×</button>`;
+  notification.innerHTML = `<span>${message}</span><button id="notif-close" style="margin-left:1em;background:none;border:none;font-size:1em;cursor:pointer;width:1.5em;height:1.5em;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;">×</button>`;
   notification.className = `notification ${type}`;
 
   // Manual dismiss
