@@ -41,7 +41,7 @@ export async function fetchNotes(kirjuri_id_val, key_id) {
     const kid = escapeSqlString(kirjuri_id_val);
     console.log('API / fetchNotes /', kid);
 
-    const sql = `SELECT muistilappu_id, teksti, kirjuri_id, muokattu FROM muistilappu WHERE kirjuri_id = '${kid}' LIMIT 144`;
+    const sql = `SELECT muistilappu_id, teksti, kirjuri_id, muokattu FROM muistilappu WHERE kirjuri_id = '${kid}' ORDER BY muokattu DESC LIMIT 144`;
     const data = await sendSQL(sql, key_id);
     if (data?.error) return data;
     const rows = data?.results?.[0]?.response?.result?.rows ?? [];
