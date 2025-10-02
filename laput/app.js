@@ -246,13 +246,7 @@ function renderNotes(notes) {
 
   tbody.innerHTML = '';
 
-  const sorted = [...notes].sort((a, b) => {
-    const ta = new Date(a.muokattu).getTime();
-    const tb = new Date(b.muokattu).getTime();
-    return (isNaN(tb) ? 0 : tb) - (isNaN(ta) ? 0 : ta);
-  });
-
-  sorted.forEach(note => {
+  notes.forEach(note => {
     const tr = createTableRow(note);
     tbody.appendChild(tr);
   });
