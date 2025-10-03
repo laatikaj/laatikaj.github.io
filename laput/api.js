@@ -1,6 +1,5 @@
 // api.js 
 const endpoint = 'https://worker-april-fool-0104.laatikaj.workers.dev/';
-const path = endpoint + 'laput?key=';
 
 function escapeSqlString(s) {
     // Korvaa yksittäiset heittomerkit SQL-escaped-versioon (' -> '')
@@ -9,9 +8,10 @@ function escapeSqlString(s) {
 
 async function sendSQL(sql, key_id) {
     const key = escapeSqlString(key_id);
+    
     let response;
     try {
-        response = await fetch(path + key, {
+        response = await fetch(endpoint + 'dataset?key=' + key, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ requests: [{ sql }] })
@@ -19,6 +19,7 @@ async function sendSQL(sql, key_id) {
     } catch (err) {
         return { error: true, status: 0, message: 'Network error', details: err };
     }
+
     if (!response.ok) {
         let msg = `HTTP error: ${response.status}`;
         const statusMessages = {
@@ -28,7 +29,8 @@ async function sendSQL(sql, key_id) {
             500: 'Internal Server Error'
         };
         msg = statusMessages[response.status] || msg;
-        return { error: true, status: response.status, message: msg };
+        // Include original status text for debugging
+        return { error: true, status: response.status, message: msg, statusText: response.statusText };
     }
     try {
         return await response.json();

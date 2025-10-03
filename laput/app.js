@@ -85,6 +85,12 @@ function showNotification(type, message) {
     throw new Error('Required element #notification is missing in HTML.');
   }
 
+    // Always clear previous timeout before setting new notification
+  if (showNotification._t) {
+    window.clearTimeout(showNotification._t);
+    showNotification._t = null;
+  }
+
   notification.innerHTML = `<span>${message}</span><button id="notif-close" style="margin-left:1em;background:none;border:none;font-size:1em;cursor:pointer;width:1.5em;height:1.5em;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;">×</button>`;
   notification.className = `notification ${type}`;
 
@@ -94,11 +100,13 @@ function showNotification(type, message) {
     closeBtn.onclick = function () {
       notification.textContent = '';
       notification.className = '';
-      window.clearTimeout(showNotification._t);
+      if (showNotification._t) {
+        window.clearTimeout(showNotification._t);
+        showNotification._t = null;
+      }
     };
   }
-
-  window.clearTimeout(showNotification._t);
+  // Auto dismiss after 4.444 seconds
   showNotification._t = window.setTimeout(() => {
     notification.textContent = '';
     notification.className = '';
@@ -111,7 +119,7 @@ function getKirjuriId() {
     console.warn('getKirjuriId: Required element #kirjuri-select is missing in HTML.');
     throw new Error('Required element #kirjuri-select is missing in HTML.');
   }
-  const v = sel?.value?.trim();
+  const v = sel.value.trim();
   if (v) return v;
   if (window.kirjuri_id) return window.kirjuri_id;
   return '';
@@ -123,7 +131,7 @@ function getSalainenAvain() {
     console.warn('getSalainenAvain: Required element #key-id is missing in HTML.');
     throw new Error('Required element #key-id is missing in HTML.');
   }
-  const v = sel?.value?.trim();
+  const v = sel.value.trim();
   if (v) return v;
   return '';
 }
