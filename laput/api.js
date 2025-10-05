@@ -39,6 +39,34 @@ async function sendSQL(sql, key_id) {
     }
 }
 
+export async function login(key_id) {
+    console.log('API / login');
+
+    let response;
+    try {
+        response = await fetch(endpoint + 'login?key=' + key_id, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+    } catch (err) {
+        return { error: true, status: 0, message: 'Network error', details: err };
+    }
+
+    if (!response.ok) {
+        let msg = `HTTP error: ${response.status}`;
+        const statusMessages = {
+            400: 'Bad Request',
+            403: 'Forbidden',
+            404: 'Not Found',
+            500: 'Internal Server Error'
+        };
+        msg = statusMessages[response.status] || msg;
+        // Include original status text for debugging
+        return { error: true, status: response.status, message: msg, statusText: response.statusText };
+    }
+    return { error: false, status: response.status, message: 'Key validated successfully', parseWarning: true };
+}
+
 export async function fetchNotes(kirjuri_id_val, key_id) {
     const kid = escapeSqlString(kirjuri_id_val);
     console.log('API / fetchNotes /', kid);

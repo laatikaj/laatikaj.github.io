@@ -21,58 +21,72 @@
 
 <body>
 
-
     <h1 class="pacifico-regular">Muisti+</h1>
+    <div id="notification"></div>
 
-    <div><!-- Kirjuri selection -->
-        <select id="kirjuri-select" title="Kirjuri"></select>
-        <input type="password" id="key-id" placeholder="Avain...">
-    </div>
+    <!-- Login -->
+    <div id="login" style="display:contents;">
+        <form id="login-form" autocomplete="off">
+            <input type="password" id="key-id" name="key-id" autocomplete="off" required autofocus
+                placeholder="Syötä avain">
+            <button type="submit" class="rect fredoka-regular" id="login-submit">Avaa</button>
 
-    <form id="quick-insert-form">
-        <textarea id="quick-teksti" maxlength="2000" rows="5" placeholder="Mitä haluat muistaa?"></textarea>
-
-        <div class="insert-data">
-            <button type="submit" class="rect fredoka-regular">Kirjaa alas</button>
-            <small id="char-count">0 / 2000</small>
-        </div>
-    </form>
-
-    <div class="get-data">
-        <form id="search-form">
-            <input type="text" id="search-input" placeholder="Hae...">
-            <button title="Search" type="submit" class="rect secondary fredoka-regular">
-                <i class="fa-solid fa-rotate"></i>
-            </button>
         </form>
     </div>
 
-    <div id="notification"></div>
+    <!-- Select and logout -->
+    <div id="select-logout" style="display:none;">
+        <select id="kirjuri-select" title="Kirjuri"></select>
+        <button id="logout-button" class="rect secondary fredoka-regular">Sulje</button>
+    </div>
 
-    <table id="notes-table">
-        <thead>
-            <tr>
-                <th class="bebas-neue-regular hidden">Nro</th>
-                <th class="bebas-neue-regular">Muistilaput</th>
-                <th class="bebas-neue-regular fixed-width">
-                    &nbsp;<i class="fa-regular fa-calendar"></i>
-                    &nbsp;<i class="fa-regular fa-clock"></i>
-                </th>
-                <th class="bebas-neue-regular">Muokkaa</th>
-            </tr>
-        </thead>
-        <tbody id="table-body">
-            <!-- Table rows added here -->
-        </tbody>
-    </table>
 
-    <div class="footer">
-        Handmade in Nurmijärvi<br>
-        Copyright &copy; <span id="currentYear"></span> laatikaj. All rights reserved.
+    <!-- App -->
+    <div id="app" style="display:none;">
+
+        <form id="quick-insert-form">
+            <textarea id="quick-teksti" maxlength="2000" rows="5" placeholder="Mitä haluat muistaa?"></textarea>
+
+            <div class="insert-data">
+                <button type="submit" class="rect fredoka-regular">Kirjaa alas</button>
+                <small id="char-count">0 / 2000</small>
+            </div>
+        </form>
+
+        <div class="get-data">
+            <form id="search-form">
+                <input type="text" id="search-input" placeholder="Hae...">
+                <button title="Search" type="submit" class="rect secondary fredoka-regular">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
+            </form>
+        </div>
+
+        <table id="notes-table">
+            <thead>
+                <tr>
+                    <th class="bebas-neue-regular hidden">Nro</th>
+                    <th class="bebas-neue-regular">Muistilaput</th>
+                    <th class="bebas-neue-regular fixed-width">
+                        &nbsp;<i class="fa-regular fa-calendar"></i>
+                        &nbsp;<i class="fa-regular fa-clock"></i>
+                    </th>
+                    <th class="bebas-neue-regular">Muokkaa</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Table rows added here -->
+            </tbody>
+        </table>
+
+        <div class="footer">
+            Handmade in Nurmijärvi<br>
+            Copyright &copy; <span id="currentYear"></span> laatikaj. All rights reserved.
+        </div>
     </div>
 
     <!-- Sovellus (ESM) -->
-    <script src="app.js" type="module"></script>
+    <script type="module" src="./app.js"></script>
 
     <noscript>
         <p>Tarvitset JavaScriptin käyttääksesi Muisti+ -sovellusta.</p>

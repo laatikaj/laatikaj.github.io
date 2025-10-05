@@ -1,5 +1,5 @@
 // app.js
-import { fetchNotes, fetchKirjurit, deleteNote, updateNote, insertNote } from './api.js';
+import { login, fetchNotes, fetchKirjurit, deleteNote, updateNote, insertNote } from './api.js';
 
 // Sovelluksen tila
 let allNotes = [];
@@ -9,7 +9,6 @@ let allKirjurit = [];
    APUFUNKTIOITA / UTILITIES
    ========================== */
 
-// 1–2000 merkin pituus, sallii kaikki Unicode-merkit (rivinvaihdot, emot, ym.)
 // Tarkistaa pituuden, kieltää tietyt merkit ja estää XSS
 function isValidNote(text) {
   if (typeof text !== 'string' || text.length === 0 || text.length > 2000) return false;
@@ -113,6 +112,19 @@ function showNotification(type, message) {
   }, 4444);
 }
 
+// Näytä mahdollinen uloskirjautumisen jälkeinen viesti (sessionStorage)
+(function showPostLogoutInfoOnce(){
+  try {
+    const msg = sessionStorage.getItem('postLogoutInfo');
+    if (msg) {
+      showNotification('info', msg);
+      sessionStorage.removeItem('postLogoutInfo');
+    }
+  } catch (e) {
+    console.warn('showPostLogoutInfoOnce failed', e);
+  }
+})();
+
 function getKirjuriId() {
   const sel = document.getElementById('kirjuri-select');
   if (!sel) {
@@ -137,6 +149,54 @@ function getSalainenAvain() {
 }
 
 /* ==========================
+   AVAIMEN VALIDOINTI
+   ========================== */
+async function validateKey() {
+  // Optionally disable submit button and show loading indicator
+  const submitBtn = document.getElementById('login-submit');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.setAttribute('data-loading', '1');
+  }
+  try {
+    const key = getSalainenAvain();
+    if (!key) {
+      showNotification('warning', 'Anna salainen avain, niin saat yhteyden palvelimelle');
+      return;
+    }
+
+    const response = await login(key);
+
+    // Accept status === true or status === 200 (or 2xx)
+    if ((typeof response.status === 'boolean' && !response.status) ||
+      (typeof response.status === 'number' && (response.status < 200 || response.status >= 300)) ||
+      response.error) {
+      showNotification('error', `Avain ei kelpaa: ${response.message || 'Tuntematon virhe'}`);
+      if (response && response.error) {
+        console.error('API error:', response.error, response);
+      }
+      return false;
+    }
+    showNotification('success', `Lukko on avattu, voit jatkaa ${response.message}`);
+    // // Redirect to index.html after successful login
+    // setTimeout(() => {
+    //   window.location.href = 'index.html';
+    // }, 88800); // Give user a moment to see the notification
+    return true;
+  } catch (err) {
+    showErrorNotification('Odottamaton virhe kirjautumisessa', err);
+    console.error('Unexpected error in validateKey:', err);
+    return false;
+  } finally {
+    // Re-enable submit button and remove loading indicator
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.removeAttribute('data-loading');
+    }
+  }
+}
+
+/* ==========================
    DATAHAKU JA RENDERÖINTI
    ========================== */
 
@@ -147,7 +207,7 @@ async function fetchAndRenderNotes(kirjuriId) {
     if (!key) {
       // Ei key-tietoa → tyhjennä näkymä ja ilmoita
       renderNotes([]);
-      showNotification('error', 'Anna salainen avain, niin saat yhteyden API:in');
+      showNotification('warning', 'Anna salainen avain, niin saat yhteyden palvelimelle');
       return;
     }
 
@@ -167,7 +227,7 @@ async function fetchAndRenderKirjurit() {
     if (!key) {
       // Ei key-tietoa → tyhjennä näkymä ja ilmoita
       renderNotes([]);
-      showNotification('error', 'Anna salainen avain, niin saat yhteyden API:in');
+      showNotification('warning', 'Anna salainen avain, niin saat yhteyden palvelimelle');
       return;
     }
 
@@ -438,9 +498,6 @@ document.getElementById('quick-insert-form')?.addEventListener('submit', async (
   const kirjuriSelect = document.getElementById('kirjuri-select');
   if (!kirjuriSelect) return;
 
-  // Päivitä kirjurit ja aseta valinta kun ne on ladattu
-  fetchAndRenderKirjurit();
-
   kirjuriSelect.addEventListener('change', () => {
     const kirjuriId = getKirjuriId();
     // Reset search input
@@ -484,15 +541,6 @@ addSafeEvent('search-form', 'submit', function(e) {
   const filtered = allNotes.filter(note => (note.teksti || '').toLowerCase().includes(keyword));
   renderNotes(filtered);
 }, 'Hakutoiminto epäonnistui');
-
-addSafeEvent('key-id', 'focusout', function() {
-  fetchAndRenderKirjurit();
-  const kirjuriId = getKirjuriId();
-  if (kirjuriId) {
-    fetchAndRenderNotes(kirjuriId);
-  }
-}, 'Avainkentän käsittely epäonnistui');
-
 async function safeAsync(fn, errorMsg) {
   try {
     await fn();
@@ -501,3 +549,46 @@ async function safeAsync(fn, errorMsg) {
     showErrorNotification(errorMsg, err);
   }
 }
+addSafeEvent('login-form', 'submit', async function(e) {
+  e.preventDefault();
+  const success = await validateKey(); 
+  if (success) {
+    // Fetch kirjurit and notes after successful key validation
+    await fetchAndRenderKirjurit();
+    const kirjuriId = getKirjuriId();
+    if (kirjuriId) {
+      await fetchAndRenderNotes(kirjuriId);
+    } else {
+      renderNotes([]);
+    }
+    // Show div#app and div#select-logout if it exists, hide div#login if it exists
+    const appDiv = document.getElementById('app');
+    const loginDiv = document.getElementById('login');
+    const selectLogoutDiv = document.getElementById('select-logout');
+    if (appDiv) {
+      appDiv.style.display = '';
+    }
+    if (loginDiv) {
+      loginDiv.style.display = 'none';
+    }
+    if (selectLogoutDiv) {
+      selectLogoutDiv.style.display = '';
+    }
+  } else {
+    renderNotes([]);
+  }
+  // Clear search input
+  const searchInput = document.getElementById('search-input');
+  if (searchInput) searchInput.value = '';
+}, 'Kirjautumisen käsittely epäonnistui');
+
+/* ==========================
+   LOGOUT / SULJE -NAPPI
+   ========================== */
+addSafeEvent('logout-button', 'click', function(e) {
+  e.preventDefault();
+  // Sivun uudelleenlataus, nollaa tilan
+  try { sessionStorage.setItem('postLogoutInfo', 'Istunto suljettu'); } catch(_) {}
+  window.location.reload();
+}, 'Uloskirjautuminen epäonnistui');
+
