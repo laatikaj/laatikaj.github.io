@@ -11,28 +11,20 @@ let allKirjurit = [];
 
 // Tarkistaa pituuden, kieltää tietyt merkit ja estää XSS
 function isValidNote(text) {
-  if (typeof text !== 'string' || text.length === 0 || text.length > 2000) return false;
-  // Kielletyt merkit: < " ' ` [ ]
-  if (/[<"'`\[\]]/.test(text)) return false;
+  if (typeof text !== 'string') return false;
+  const trimmed = text.trim();
+  if (!trimmed) return false;
+  if (trimmed.length > 2000) return false;
   // Estä ohjausmerkit (ASCII < 32, pois lukien \n ja \r)
   if (/[<\u0000-\b\u000b\u000c\u000e-\u001f>]/.test(text)) return false;
   // Estä script-tagit ja event-attribuutit
   if (/script|onerror|onload|onmouseover|onfocus|onabort|onblur|onchange|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onreset|onresize|onscroll|onselect|onsubmit|onunload/i.test(text)) return false;
-  // Estä liiallinen whitespace
-  if (/^\s+$/.test(text)) return false;
-  // Varoitus: epäilyttävä sisältö
-  if (/javascript:|data:|vbscript:/i.test(text)) {
-    console.warn('isValidNote: Suspicious content detected.');
-    return false;
-  }
+  // Estä epäilyttävä sisältö
+  if (/javascript:|data:|vbscript:/i.test(text)) return false;
   // Estä URL-osoitteet http ja ftp
   if (/(^http:\/\/|^ftp:\/\/)/i.test(text)) return false;
-  // Estä toistuvat merkit (esim. 10+ samaa merkkiä)
-  if (/(.)\1{9,}/.test(text)) return false;
   // Estä SQL-avainsanat
   if (/\b(select|insert|update|delete|drop|alter|create|truncate|exec|union|--|;|\*)\b/i.test(text)) return false;
-  // Estä emoji-merkit (tarkennettu Unicode-alue)
-  if (/([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}])/u.test(text)) return false;
   return true;
 }
 
@@ -78,35 +70,35 @@ function showErrorNotification(baseMsg, err) {
 // Yhtenäinen tapa näyttää notifikaatio (info | success | error).
 // Edellyttää <div id="notification"></div> HTML:ssä.
 function showNotification(type, message) {
-  const notification = document.getElementById('notification');
-  if (!notification) {
-    console.warn('showNotification: Required element #notification is missing in HTML.');
-    throw new Error('Required element #notification is missing in HTML.');
-  }
+  const wrap = document.getElementById('notification');
+  if (!wrap) return; // Ei notifikaatioaluetta
 
-    // Always clear previous timeout before setting new notification
+   // Always clear previous timeout before setting new notification
   if (showNotification._t) {
-    window.clearTimeout(showNotification._t);
+    clearTimeout(showNotification._t);
     showNotification._t = null;
   }
 
-  notification.innerHTML = `<span>${message}</span><button id="notif-close" style="margin-left:1em;background:none;border:none;font-size:1em;cursor:pointer;width:1.5em;height:1.5em;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;">×</button>`;
-  notification.className = `notification ${type}`;
+  wrap.className = `notification ${type}`;
+  wrap.innerHTML = ''; // tyhjä ensin
 
+  const span = document.createElement('span');
+  span.textContent = message; // turvallinen
+ 
   // Manual dismiss
-  const closeBtn = document.getElementById('notif-close');
-  if (closeBtn) {
-    closeBtn.onclick = function () {
-      notification.textContent = '';
-      notification.className = '';
-      if (showNotification._t) {
-        window.clearTimeout(showNotification._t);
-        showNotification._t = null;
-      }
-    };
-  }
-  // Auto dismiss after 4.444 seconds
-  showNotification._t = window.setTimeout(() => {
+  const btn = document.createElement('button');
+  btn.className = 'notif-close';
+  btn.textContent = 'x';
+
+  btn.onclick = () => {
+    wrap.textContent = '';
+    wrap.className = '';
+    if (showNotification._t) clearTimeout(showNotification._t);
+  };
+  wrap.append(span, btn);
+
+    // Auto dismiss after 4.444 seconds
+  showNotification._t = setTimeout(() => {
     notification.textContent = '';
     notification.className = '';
   }, 4444);

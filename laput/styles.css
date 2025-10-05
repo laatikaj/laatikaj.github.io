@@ -6,6 +6,7 @@
     --button-primary-bg-color: #6a5acd;
     --button-secondary-bg-color: #f8f9f9;
     --button-info-bg-color: #6a5acd;
+    --button-neutral-bg-color: #a2a1ac;
     --button-hover-shadow-color: rgba(44, 62, 80, 0.4);
     --text-primary-color: #120f23;
     --text-secondary-color: #7c7996;
@@ -149,7 +150,6 @@ button {
     border-radius: 4px;
 }
 
-
 button[type="submit"][disabled],
 button[data-loading="1"] {
     background: #aaa;
@@ -201,6 +201,21 @@ button.clear-button {
 
 button.save-button {
     background-color: var(--positive-color);
+}
+
+/* Sulkunappi notifikaatioissa */
+.notif-close {
+    background-color: var(--button-neutral-bg-color);
+    color: white;
+    border:  none;
+    font-size: 1em;
+    cursor: pointer;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    margin-left: 1em;
+    align-items: center;
+    justify-content: center;
 }
 
 /* FAQ-ikkuna */
