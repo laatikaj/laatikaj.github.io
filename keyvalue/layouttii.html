@@ -1,0 +1,940 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Light/Dark Theme Demo – Tabs + Hamburger Menu</title>
+
+  <!-- =========================================================
+       HEAD THEME BOOTSTRAP
+       - First visit: picks OS preference and persists it
+       - Next visits: uses persisted value
+       - Applies BEFORE CSS renders (prevents flash)
+       ========================================================= -->
+  <script>
+  (() => {
+    const KEY = "theme"; // "dark" | "light"
+    const root = document.documentElement;
+
+    const safeGet = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
+    const safeSet = (val) => { try { localStorage.setItem(KEY, val); } catch {} };
+
+    const systemPrefersDark = () => {
+      try { return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches; }
+      catch { return false; }
+    };
+
+    const saved = safeGet();
+    const theme = (saved === "dark" || saved === "light")
+      ? saved
+      : (systemPrefersDark() ? "dark" : "light");
+
+    root.dataset.theme = theme;
+
+    // Persist first-time choice so there is no system-mode later
+    if (!(saved === "dark" || saved === "light")) safeSet(theme);
+  })();
+  </script>
+
+  <style>
+    /* =========================================================
+       THEME TOKENS
+       ========================================================= */
+    :root { color-scheme: light dark; }
+
+    :root {
+      --bg: #FCFCFD;
+      --surface: #ECEFF1;
+      --surface-2: #FAFBFC;
+      --border: #d0d7de;
+      --text: #111827;
+      --text-dim: #4b5563;
+      --accent: #1a73e8;
+      --accent-2: #1558b0;
+      --focus: #8AB4F8;
+
+      --success: #1f9d55;
+      --warning: #b45309;
+      --danger:  #b91c1c;
+
+      --shadow: 0 8px 24px rgba(0,0,0,.08);
+
+      --radius: 10px;
+      --radius-sm: 8px;
+      --space: 1rem;
+      --line: 1.5;
+
+      --btn-primary-bg: #1558B0;
+      --btn-primary-text: #FFFFFF;
+      --btn-primary-hover: #1A73E8;
+      --btn-primary-active: #134A96;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #202123;
+        --surface: #141414;
+        --surface-2: #202123;
+        --border: #3D4043;
+        --text: #E8EAED;
+        --text-dim: #BDC1C6;
+        --accent: #8AB4F8;
+        --accent-2: #BDC1C6;
+        --focus: #8AB4F8;
+
+        --shadow: 0 10px 30px rgba(0,0,0,.35);
+
+        --btn-primary-bg: #8AB4F8;
+        --btn-primary-text: #0B0F14;
+        --btn-primary-hover: #A4C7FF;
+        --btn-primary-active: #6EA2F2;
+      }
+    }
+
+    /* Manual override from JS (wins over prefers-color-scheme) */
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bg: #FCFCFD;
+      --surface: #ECEFF1;
+      --surface-2: #FAFBFC;
+      --border: #d0d7de;
+      --text: #111827;
+      --text-dim: #4b5563;
+      --accent: #1a73e8;
+      --accent-2: #1558b0;
+      --focus: #8AB4F8;
+      --shadow: 0 8px 24px rgba(0,0,0,.08);
+
+      --btn-primary-bg: #1558B0;
+      --btn-primary-text: #FFFFFF;
+      --btn-primary-hover: #1A73E8;
+      --btn-primary-active: #134A96;
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #202123;
+      --surface: #141414;
+      --surface-2: #202123;
+      --border: #3D4043;
+      --text: #E8EAED;
+      --text-dim: #BDC1C6;
+      --accent: #8AB4F8;
+      --accent-2: #BDC1C6;
+      --focus: #8AB4F8;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+
+      --btn-primary-bg: #8AB4F8;
+      --btn-primary-text: #0B0F14;
+      --btn-primary-hover: #A4C7FF;
+      --btn-primary-active: #6EA2F2;
+    }
+
+    /* =========================================================
+       BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: var(--line);
+    }
+
+    /* Scroll lock when mobile menu is open */
+    body.menu-open {
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    a { color: var(--accent); text-decoration: none; text-underline-offset: 3px; }
+    a:hover { text-decoration: underline; }
+    a:visited { color: var(--accent-2); }
+
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+    ::selection { background: color-mix(in srgb, var(--accent) 30%, transparent); }
+
+    .muted { color: var(--text-dim); }
+    .small { font-size: .92rem; }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .card, .box, .surface {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: calc(var(--space) * 1.1);
+      box-shadow: var(--shadow);
+    }
+    hr { border: 0; border-top: 1px solid var(--border); margin: calc(var(--space) * 1.25) 0; }
+
+    /* Buttons */
+    button, .btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      padding: .6rem .9rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: transform .05s ease, background .15s ease, border-color .15s ease;
+      font: inherit;
+    }
+    button:hover, .btn:hover {
+      border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+      background: color-mix(in srgb, var(--accent) 10%, var(--surface-2));
+    }
+    button:active, .btn:active { transform: translateY(1px); }
+
+    .btn-primary {
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      border: 1px solid color-mix(in srgb, var(--btn-primary-bg) 70%, #000 30%);
+      box-shadow: 0 6px 18px color-mix(in srgb, var(--btn-primary-bg) 25%, transparent);
+    }
+    .btn-primary:hover {
+      background: var(--btn-primary-hover);
+      border-color: color-mix(in srgb, var(--btn-primary-hover) 70%, #000 30%);
+    }
+    .btn-primary:active { background: var(--btn-primary-active); }
+    .btn-row { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+
+    /* Forms */
+    input, textarea, select {
+      width: 100%;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: .6rem .7rem;
+      font: inherit;
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-dim); }
+    input:disabled, textarea:disabled, select:disabled { opacity: .7; cursor: not-allowed; }
+
+    .form-grid {
+      display: grid;
+      gap: .85rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px) {
+      .form-grid { grid-template-columns: 1fr 1fr; }
+      .form-grid .full { grid-column: 1 / -1; }
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    th, td { padding: .75rem; border-bottom: 1px solid var(--border); text-align: left; }
+    tr:hover td { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+
+    /* Code blocks */
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+    pre {
+      background: color-mix(in srgb, var(--surface) 90%, #000 10%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      overflow: auto;
+    }
+    code {
+      background: color-mix(in srgb, var(--surface) 80%, #000 20%);
+      padding: .15rem .35rem;
+      border-radius: 6px;
+    }
+
+    /* Alerts */
+    .alert {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-left-width: 5px;
+      border-radius: var(--radius);
+      padding: .75rem 1rem;
+    }
+    .alert--success { border-left-color: var(--success); }
+    .alert--warning { border-left-color: var(--warning); }
+    .alert--danger  { border-left-color: var(--danger); }
+
+    /* =========================================================
+       HEADER + HAMBURGER MENU (inline down on mobile)
+       ========================================================= */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: .85rem 1.25rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: .75rem;
+      align-items: center;
+    }
+
+    .brand {
+      display: grid;
+      gap: .15rem;
+      min-width: 180px;
+    }
+    .brand strong { font-size: 1.05rem; }
+
+    /* Hamburger button */
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: var(--radius-sm);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .icon-btn:hover {
+      border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+      background: color-mix(in srgb, var(--accent) 10%, var(--surface-2));
+    }
+
+    .hamburger {
+      width: 18px;
+      height: 12px;
+      position: relative;
+    }
+    .hamburger span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--text);
+      opacity: .9;
+      transition: transform .2s ease, top .2s ease, opacity .2s ease;
+    }
+    .hamburger span:nth-child(1) { top: 0; }
+    .hamburger span:nth-child(2) { top: 5px; }
+    .hamburger span:nth-child(3) { top: 10px; }
+
+    .icon-btn[aria-expanded="true"] .hamburger span:nth-child(1) { top: 5px; transform: rotate(45deg); }
+    .icon-btn[aria-expanded="true"] .hamburger span:nth-child(2) { opacity: 0; }
+    .icon-btn[aria-expanded="true"] .hamburger span:nth-child(3) { top: 5px; transform: rotate(-45deg); }
+
+    /* Nav list base */
+    nav.site-nav { justify-self: center; }
+    .nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: .35rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .nav-list a {
+      display: inline-flex;
+      padding: .55rem .8rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-list a:hover {
+      background: color-mix(in srgb, var(--accent) 10%, var(--surface-2));
+      border-color: color-mix(in srgb, var(--accent) 25%, var(--border));
+    }
+    .nav-list a[aria-current="page"] {
+      background: color-mix(in srgb, var(--accent) 16%, transparent);
+      border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+      font-weight: 600;
+    }
+
+    /* Desktop: show nav always, hide hamburger */
+    @media (min-width: 821px) {
+      #menuBtn { display: none; }
+      nav.site-nav .nav-list { display: flex; }
+    }
+
+    /* Mobile: inline down dropdown (divider + smoother animation) */
+    @media (max-width: 820px) {
+      nav.site-nav {
+        grid-column: 1 / -1;
+        justify-self: stretch;
+        position: relative;
+      }
+
+      /* Divider-viiva valikon yläreunaan (näkyy kun menu auki) */
+      nav.site-nav::before {
+        content: "";
+        display: block;
+        height: 1px;
+        background: color-mix(in srgb, var(--border) 85%, transparent);
+        opacity: 0;
+        transform: scaleX(.98);
+        transition: opacity .18s ease, transform .22s ease;
+      }
+
+      /* "Inline alas" animation */
+      nav.site-nav .nav-list {
+        flex-direction: column;
+        align-items: stretch;
+        gap: .25rem;
+
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        padding-top: 0;
+
+        transform: translateY(-6px);
+        transition:
+          max-height .28s ease,
+          opacity .18s ease,
+          padding-top .22s ease,
+          transform .22s ease;
+      }
+
+      nav.site-nav[data-open="true"]::before {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+
+      nav.site-nav[data-open="true"] .nav-list {
+        max-height: 360px;
+        opacity: 1;
+        padding-top: .65rem;
+        transform: translateY(0);
+      }
+
+      .nav-list a { width: 100%; }
+    }
+
+    /* =========================================================
+       RESPONSIVE THEME TOGGLE (slider)
+       ========================================================= */
+    :root {
+      --toggle-size: clamp(1.05rem, 0.95rem + 0.55vw, 1.35rem);
+      --toggle-track-w: calc(var(--toggle-size) * 2.1);
+      --toggle-track-h: calc(var(--toggle-size) * 1.2);
+      --toggle-pad:     calc(var(--toggle-size) * 0.12);
+      --toggle-thumb:   calc(var(--toggle-track-h) - (var(--toggle-pad) * 2));
+      --toggle-shift:   calc(var(--toggle-track-w) - var(--toggle-thumb) - (var(--toggle-pad) * 2));
+
+      --toggle-track: color-mix(in srgb, var(--border) 55%, var(--surface) 45%);
+      --toggle-track-hover: color-mix(in srgb, var(--border) 35%, var(--surface) 65%);
+      --toggle-track-on: color-mix(in srgb, var(--accent) 55%, var(--surface) 45%);
+      --toggle-thumb-bg: #ffffff;
+      --toggle-thumb-border: color-mix(in srgb, var(--border) 65%, transparent);
+      --toggle-shadow: 0 0.45rem 1.2rem rgba(0,0,0,.18);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --toggle-thumb-bg: #E8EAED;
+        --toggle-shadow: 0 0.6rem 1.6rem rgba(0,0,0,.38);
+      }
+    }
+
+    .toggle { display: inline-flex; align-items: center; }
+    .toggle__input {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+    }
+    .toggle__label {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      cursor: pointer;
+      user-select: none;
+      color: var(--text);
+      padding-block: .2rem;
+      white-space: nowrap;
+    }
+    .toggle__track {
+      width: var(--toggle-track-w);
+      height: var(--toggle-track-h);
+      border-radius: 999px;
+      background: var(--toggle-track);
+      border: 1px solid var(--border);
+      position: relative;
+      transition: background .18s ease, border-color .18s ease;
+    }
+    .toggle__thumb {
+      position: absolute;
+      top: 50%;
+      left: var(--toggle-pad);
+      width: var(--toggle-thumb);
+      height: var(--toggle-thumb);
+      border-radius: 999px;
+      background: var(--toggle-thumb-bg);
+      border: 1px solid var(--toggle-thumb-border);
+      transform: translate(0, -50%);
+      box-shadow: var(--toggle-shadow);
+      transition: transform .18s ease;
+    }
+    .toggle__label:hover .toggle__track {
+      background: var(--toggle-track-hover);
+      border-color: color-mix(in srgb, var(--accent) 25%, var(--border));
+    }
+    .toggle__input:checked + .toggle__label .toggle__track {
+      background: var(--toggle-track-on);
+      border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+    }
+    .toggle__input:checked + .toggle__label .toggle__thumb {
+      transform: translate(var(--toggle-shift), -50%);
+    }
+    .toggle__input:focus-visible + .toggle__label .toggle__track {
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+    }
+    .toggle__text { font-size: .95rem; }
+
+    /* =========================================================
+       TABS COMPONENT
+       ========================================================= */
+    .tabs { display: grid; gap: .75rem; }
+
+    .tablist {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      padding: .35rem;
+      border-radius: calc(var(--radius) + 2px);
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 70%, var(--surface-2));
+    }
+
+    .tab {
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text);
+      padding: .55rem .85rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background .15s ease, border-color .15s ease;
+    }
+
+    .tab:hover {
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border-color: color-mix(in srgb, var(--accent) 25%, var(--border));
+    }
+
+    .tab[aria-selected="true"] {
+      background: color-mix(in srgb, var(--accent) 16%, transparent);
+      border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+      font-weight: 600;
+    }
+
+    .tabpanel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 1rem;
+    }
+    .tabpanel[hidden] { display: none; }
+
+    /* Layout */
+    .grid-2 {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 900px) {
+      .grid-2 { grid-template-columns: 1.1fr .9fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =========================================================
+       HEADER with hamburger menu + nav + theme toggle
+       ========================================================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <button class="icon-btn" id="menuBtn" type="button"
+              aria-label="Avaa valikko"
+              aria-controls="siteNav"
+              aria-expanded="false">
+        <span class="hamburger" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+
+      <div class="brand">
+        <strong>Teemademo</strong>
+        <span class="muted small">Tabs + hamburger menu + scroll-spy + localStorage</span>
+      </div>
+
+      <!-- Theme toggle -->
+      <div class="toggle" title="Vaihda teema">
+        <input class="toggle__input" type="checkbox" id="themeToggle" name="themeToggle" />
+        <label class="toggle__label" for="themeToggle">
+          <span class="toggle__track" aria-hidden="true">
+            <span class="toggle__thumb" aria-hidden="true"></span>
+          </span>
+          <span class="toggle__text">Tumma</span>
+        </label>
+      </div>
+
+      <nav class="site-nav" id="siteNav" data-open="false" aria-label="Päävalikko">
+        <ul class="nav-list">
+          <li><a href="#overview">Yleistä</a></li>
+          <li><a href="#tabs">Välilehdet</a></li>
+          <li><a href="#components">Komponentit</a></li>
+          <li><a href="#settings">Asetukset</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- =========================================================
+         OVERVIEW
+         ========================================================= -->
+    <section class="card" id="overview">
+      <h2 style="margin-top:0;">Yleistä</h2>
+      <p class="muted">
+        Mobiilissa (≤820px) valikko avautuu inline alas ja tausta-scroll lukittuu.
+        Klikkaus valikon ulkopuolelle sulkee valikon. Navin aktiivinen linkki päivittyy scrollauksen mukaan.
+      </p>
+      <div class="btn-row">
+        <button class="btn">Normaali</button>
+        <button class="btn btn-primary">Primary</button>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TABS DEMO
+         ========================================================= -->
+    <section class="card" id="tabs">
+      <h2 style="margin-top:0;">Välilehdet (Tabs)</h2>
+      <p class="muted">Nuolinäppäimet vaihtavat välilehteä. Home/End hyppää alkuun/loppuun. Enter/Space aktivoi.</p>
+
+      <div class="tabs" data-tabs>
+        <div class="tablist" role="tablist" aria-label="Esimerkkivälilehdet">
+          <button class="tab" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true" tabindex="0">Yleistä</button>
+          <button class="tab" role="tab" id="tab-details"  aria-controls="panel-details"  aria-selected="false" tabindex="-1">Tiedot</button>
+          <button class="tab" role="tab" id="tab-settings" aria-controls="panel-settings" aria-selected="false" tabindex="-1">Asetukset</button>
+        </div>
+
+        <div class="tabpanel" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview">
+          <strong>Yleistä</strong>
+          <p>Tässä paneelissa on yleiskuvaus. Teema valitaan ensimmäisellä kerralla OS:n mukaan ja lukitaan localStorageen.</p>
+          <div class="btn-row">
+            <button class="btn">Normaali</button>
+            <button class="btn btn-primary">Primary</button>
+          </div>
+        </div>
+
+        <div class="tabpanel" role="tabpanel" id="panel-details" aria-labelledby="tab-details" hidden>
+          <strong>Tiedot</strong>
+          <p>Välilehdet noudattavat ARIA-rooleja ja JS hoitaa näppäimistötuen.</p>
+          <pre><code>role="tablist"
+role="tab"
+role="tabpanel"</code></pre>
+        </div>
+
+        <div class="tabpanel" role="tabpanel" id="panel-settings" aria-labelledby="tab-settings" hidden>
+          <strong>Asetukset</strong>
+          <p>Voit vaihtaa teemaa oikean yläkulman kytkimestä.</p>
+          <div class="alert alert--warning"><strong>Huom:</strong> Ei system-tilaa eikä Esc-resettiä teemalle.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         COMPONENTS + SETTINGS
+         ========================================================= -->
+    <section class="grid-2" id="components">
+      <div class="card">
+        <h2 style="margin-top:0;">Komponentit</h2>
+        <p>Linkki-esimerkki: <a href="#settings">avaa asetukset</a>. <span class="muted">Himmeä teksti näyttää tältä.</span></p>
+
+        <div class="alert alert--success"><strong>Onnistui:</strong> Tallennus toimii.</div>
+        <div class="alert alert--danger" style="margin-top:.6rem;"><strong>Virhe:</strong> Tämä on vain demo.</div>
+
+        <hr />
+
+        <h3 style="margin:0 0 .5rem;">Taulukko</h3>
+        <table>
+          <thead>
+            <tr><th>Osa</th><th>Kuvaus</th><th>Tila</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Menu</td><td>Hamburilaisvalikko (inline alas + divider)</td><td>OK</td></tr>
+            <tr><td>Scroll spy</td><td>IntersectionObserver</td><td>OK</td></tr>
+            <tr><td>Tabs</td><td>ARIA + näppäimistötuki</td><td>OK</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" id="settings">
+        <h2 style="margin-top:0;">Asetuslomake</h2>
+        <div class="form-grid">
+          <div>
+            <label class="small muted" for="name">Nimi</label>
+            <input id="name" placeholder="Kirjoita nimesi" />
+          </div>
+          <div>
+            <label class="small muted" for="email">Sähköposti</label>
+            <input id="email" type="email" placeholder="etunimi.sukunimi@firma.fi" />
+          </div>
+          <div class="full">
+            <label class="small muted" for="notes">Muistiinpanot</label>
+            <textarea id="notes" rows="4" placeholder="Kirjoita tähän..."></textarea>
+          </div>
+          <div>
+            <label class="small muted" for="choice">Valinta</label>
+            <select id="choice">
+              <option>Vaihtoehto A</option>
+              <option>Vaihtoehto B</option>
+              <option>Vaihtoehto C</option>
+            </select>
+          </div>
+          <div>
+            <label class="small muted" for="disabled">Disabled</label>
+            <input id="disabled" disabled value="Ei muokattavissa" />
+          </div>
+        </div>
+
+        <hr />
+        <p class="muted">Inline-koodi: <code>html[data-theme="dark"]</code></p>
+        <pre><code>// Teema:
+document.documentElement.dataset.theme = "dark";
+// Tallennus:
+localStorage.setItem("theme", "dark");</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       BODY JS
+       - Theme toggle sync + persist (no system-mode)
+       - Hamburger menu toggle (inline down on mobile)
+       - Tap outside to close + scroll lock
+       - Tabs interaction (ARIA + keyboard)
+       - Active nav by scroll (IntersectionObserver + fallback)
+       ========================================================= -->
+  <script>
+  (() => {
+    /* ---------------------------
+       Theme toggle (persisted)
+       --------------------------- */
+    const KEY = "theme";
+    const root = document.documentElement;
+    const themeToggle = document.getElementById("themeToggle");
+
+    const safeGet = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
+    const safeSet = (val) => { try { localStorage.setItem(KEY, val); } catch {} };
+
+    if (themeToggle) {
+      const current = root.dataset.theme || safeGet() || "light";
+      themeToggle.checked = (current === "dark");
+
+      themeToggle.addEventListener("change", () => {
+        const theme = themeToggle.checked ? "dark" : "light";
+        root.dataset.theme = theme;
+        safeSet(theme);
+      });
+    }
+
+    /* ---------------------------
+       Hamburger menu (inline down + tap outside + scroll lock)
+       --------------------------- */
+    const menuBtn = document.getElementById("menuBtn");
+    const siteNav = document.getElementById("siteNav");
+    const siteHeader = document.getElementById("siteHeader");
+    const body = document.body;
+
+    const isMobile = () => window.matchMedia && window.matchMedia("(max-width: 820px)").matches;
+
+    function setScrollLock(locked) {
+      // Lock only on mobile, because desktop has always-visible nav
+      if (locked && isMobile()) body.classList.add("menu-open");
+      else body.classList.remove("menu-open");
+    }
+
+    function setMenu(open) {
+      if (!menuBtn || !siteNav) return;
+      menuBtn.setAttribute("aria-expanded", String(open));
+      siteNav.dataset.open = open ? "true" : "false";
+      menuBtn.setAttribute("aria-label", open ? "Sulje valikko" : "Avaa valikko");
+      setScrollLock(open);
+    }
+
+    function menuIsOpen() {
+      return menuBtn && menuBtn.getAttribute("aria-expanded") === "true";
+    }
+
+    if (menuBtn && siteNav) {
+      setMenu(false);
+
+      menuBtn.addEventListener("click", () => {
+        setMenu(!menuIsOpen());
+      });
+
+      // Close menu on link click (mobile)
+      siteNav.addEventListener("click", (e) => {
+        if (e.target.closest("a")) setMenu(false);
+      });
+
+      // Close menu on Escape (only menu)
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") setMenu(false);
+      });
+
+      // Tap/click outside to close (only when open on mobile)
+      document.addEventListener("pointerdown", (e) => {
+        if (!menuIsOpen()) return;
+        if (!isMobile()) return;
+
+        const insideHeader = siteHeader && siteHeader.contains(e.target);
+        if (!insideHeader) setMenu(false);
+      });
+
+      // If resized to desktop, close the mobile state + unlock scroll
+      window.addEventListener("resize", () => {
+        if (window.matchMedia("(min-width: 821px)").matches) setMenu(false);
+      });
+    }
+
+    /* ---------------------------
+       Tabs (ARIA + keyboard)
+       --------------------------- */
+    const tabsRoots = document.querySelectorAll("[data-tabs]");
+    tabsRoots.forEach((rootEl) => {
+      const tabs = Array.from(rootEl.querySelectorAll('[role="tab"]'));
+      const panels = Array.from(rootEl.querySelectorAll('[role="tabpanel"]'));
+
+      const activate = (tab) => {
+        tabs.forEach((t) => {
+          const selected = (t === tab);
+          t.setAttribute("aria-selected", String(selected));
+          t.tabIndex = selected ? 0 : -1;
+        });
+
+        const panelId = tab.getAttribute("aria-controls");
+        panels.forEach((p) => { p.hidden = (p.id !== panelId); });
+
+        tab.focus({ preventScroll: true });
+      };
+
+      tabs.forEach((tab) => tab.addEventListener("click", () => activate(tab)));
+
+      rootEl.addEventListener("keydown", (e) => {
+        const currentIndex = tabs.findIndex(t => t.getAttribute("aria-selected") === "true");
+        if (currentIndex < 0) return;
+
+        let nextIndex = currentIndex;
+
+        if (e.key === "ArrowRight") nextIndex = (currentIndex + 1) % tabs.length;
+        else if (e.key === "ArrowLeft") nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+        else if (e.key === "Home") nextIndex = 0;
+        else if (e.key === "End") nextIndex = tabs.length - 1;
+        else if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          activate(document.activeElement.closest('[role="tab"]') || tabs[currentIndex]);
+          return;
+        } else return;
+
+        e.preventDefault();
+        activate(tabs[nextIndex]);
+      });
+    });
+
+    /* ---------------------------
+       Active nav link by scroll (IntersectionObserver + fallback)
+       --------------------------- */
+    const navLinks = Array.from(document.querySelectorAll('.nav-list a[href^="#"]'));
+    const sections = navLinks
+      .map(a => document.querySelector(a.getAttribute("href")))
+      .filter(Boolean);
+
+    const setCurrent = (idOrHash) => {
+      navLinks.forEach(a => a.removeAttribute("aria-current"));
+      const hash = idOrHash.startsWith("#") ? idOrHash : `#${idOrHash}`;
+      const active = navLinks.find(a => a.getAttribute("href") === hash);
+      if (active) active.setAttribute("aria-current", "page");
+    };
+
+    // Initial from hash or default
+    setCurrent(location.hash || "#overview");
+
+    // Update immediately on click
+    navLinks.forEach(a => {
+      a.addEventListener("click", () => setCurrent(a.getAttribute("href")));
+    });
+
+    // Update on hash change
+    window.addEventListener("hashchange", () => setCurrent(location.hash || "#overview"));
+
+    // IO: highlight section currently near top
+    if ("IntersectionObserver" in window && sections.length) {
+      let currentId = null;
+
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        if (visible.length) {
+          const id = visible[0].target.id;
+          if (id && id !== currentId) {
+            currentId = id;
+            setCurrent(id);
+          }
+        }
+      }, {
+        root: null,
+        rootMargin: "-30% 0px -60% 0px",
+        threshold: [0, 0.1, 0.25]
+      });
+
+      sections.forEach(sec => observer.observe(sec));
+    } else {
+      // Fallback: simple scroll spy
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+
+        requestAnimationFrame(() => {
+          ticking = false;
+          const y = window.scrollY + (window.innerHeight * 0.25);
+          let best = sections[0];
+          for (const sec of sections) {
+            if (sec.offsetTop <= y) best = sec;
+          }
+          if (best && best.id) setCurrent(best.id);
+        });
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+  })();
+  </script>
+</body>
+</html>
+``
