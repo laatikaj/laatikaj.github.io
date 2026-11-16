@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tiloissa – Hyvää elämää</title>
+  <meta name="description" content="Pidetään yhdessä huolta tiloista.">
+  <meta name="author" content="laatikaj.">
+  <meta name="apple-mobile-web-app-title" content="Tiloissa" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="theme-color" content="#0B132B">
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M14 46 L50 16 L86 46 L86 86 L14 86 Z' fill='%23E8ECF5' stroke='%23E8ECF5' stroke-width='10' stroke-linejoin='round'/%3E%3Cpolyline points='31,62 45,75 70,50' fill='none' stroke='%231C2A4A' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='76' cy='20' r='7' fill='%23F3C56E'/%3E%3C/svg%3E">
+  <style>
+    @font-face {
+      font-family: "Nunito";
+      font-weight: 400 800;
+      font-display: swap;
+      src: url("nunito-latin.woff2") format("woff2");
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      display: grid;
+      margin: 0;
+      grid-template-rows: 1fr auto;
+      place-items: center;
+      padding: 2rem 1.25rem;
+      background:
+        linear-gradient(rgba(205, 199, 242, 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
+        linear-gradient(90deg, rgba(205, 199, 242, 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
+        #0B132B;
+      color: #E8ECF5;
+      font-family: "Nunito", "Avenir Next", "Avenir", "Helvetica Neue", Arial, sans-serif;
+      text-align: center;
+    }
+
+    main {
+      display: grid;
+      justify-items: center;
+      gap: 1.5rem;
+    }
+
+    .mark {
+      width: min(16rem, 56vw);
+      height: auto;
+    }
+
+    h1 {
+      margin: -0.5rem 0 0;
+      font-size: clamp(3rem, 12vw, 5.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .promise {
+      margin: 0;
+      font-size: clamp(1.75rem, 6vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    h1 span {
+      color: #F3C56E;
+    }
+
+    .tagline {
+      margin: 0;
+      color: #CDC7F2;
+      font-size: 1.125rem;
+    }
+
+    .cta {
+      margin-top: 1rem;
+      padding: 0.9rem 1.75rem;
+      border-radius: 999px;
+      background: #8EA9F2;
+      color: #0B132B;
+      font-size: 1.125rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .cta:hover {
+      background: #CDC7F2;
+    }
+
+    footer {
+      padding-top: 2rem;
+      color: #8A93A6;
+      font-size: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .cta:focus-visible {
+      outline: 3px solid #F3C56E;
+      outline-offset: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="tiloissa-tunnus">
+      <path d="M14 46 L50 16 L86 46 L86 86 L14 86 Z" fill="#E8ECF5" stroke="#E8ECF5" stroke-width="10"
+        stroke-linejoin="round" />
+      <polyline points="31,62 45,75 70,50" fill="none" stroke="#1C2A4A" stroke-width="10" stroke-linecap="round"
+        stroke-linejoin="round" />
+      <circle cx="76" cy="20" r="7" fill="#F3C56E" />
+    </svg>
+    <p class="promise">Hyvää elämää</p>
+    <h1>tiloissa<span>.</span></h1>
+    <p class="tagline">Jokaisella oma vuoronsa.</p>
+    <a class="cta" href="https://tiloissa-app.laatikaj.workers.dev/">Avaa sovellus</a>
+  </main>
+  <footer>Copyright &copy; <span id="currentYear">2026</span> laatikaj. All rights reserved.</footer>
+  <script>document.getElementById("currentYear").textContent = new Date().getFullYear();</script>
+
+</body>
+
+</html>
